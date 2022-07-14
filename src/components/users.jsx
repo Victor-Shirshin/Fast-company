@@ -1,6 +1,7 @@
 import { useState } from "react";
 import api from "../api";
 import SearchStatus from "./searchStatus";
+import Qualitie from "./qualitie";
 
 // Компонент Users
 const Users = () => {
@@ -29,18 +30,7 @@ const Users = () => {
           <tbody>
             {users.map((user) => (
               <tr key={user._id}>
-                <td>{user.name}</td>
-                <td>
-                  {" "}
-                  {user.qualities.map((quality) => (
-                    <span
-                      key={quality._id}
-                      className={`badge bg-${quality.color} m-1`}
-                    >
-                      {quality.name}
-                    </span>
-                  ))}
-                </td>
+                <Qualitie name={user.name} color={user.qualities} />
                 <td>{user.profession.name}</td>
                 <td>{user.completedMeetings}</td>
                 <td>{user.rate}/5</td>
