@@ -4,16 +4,10 @@ import SearchStatus from "./searchStatus";
 import User from "./user";
 
 // Компонент Users
-const Users = () => {
-  const [users, setUsers] = useState(api.users.fetchAll()); // Hook useState()
-  // удаление элемента при 'клике' на button
-  const handleDelete = (userId) => {
-    setUsers((prevState) => prevState.filter((user) => user._id !== userId));
-  };
-
+const Users = ({ users, handleDelete }) => {
   return (
     <>
-      <SearchStatus length={users.length} />
+      {/* <SearchStatus length={users.length} /> */}
       {users.length !== 0 && (
         <table className="table">
           <thead>
@@ -27,7 +21,7 @@ const Users = () => {
             </tr>
           </thead>
           <tbody>
-            <User users={users} />
+            <User users={users} handleDelete={handleDelete} />
           </tbody>
         </table>
       )}

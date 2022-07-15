@@ -1,6 +1,6 @@
 import Qualitie from "./qualitie";
 
-const User = ({ users }) => {
+const User = ({ users, handleDelete }) => {
   return users.map((user) => (
     <tr key={user._id}>
       <Qualitie name={user.name} color={user.qualities} />
