@@ -1,12 +1,11 @@
 import { useState } from "react";
 import api from "../api";
 import SearchStatus from "./searchStatus";
-import Qualitie from "./qualitie";
+import User from "./user";
 
 // Компонент Users
 const Users = () => {
   const [users, setUsers] = useState(api.users.fetchAll()); // Hook useState()
-
   // удаление элемента при 'клике' на button
   const handleDelete = (userId) => {
     setUsers((prevState) => prevState.filter((user) => user._id !== userId));
@@ -28,22 +27,7 @@ const Users = () => {
             </tr>
           </thead>
           <tbody>
-            {users.map((user) => (
-              <tr key={user._id}>
-                <Qualitie name={user.name} color={user.qualities} />
-                <td>{user.profession.name}</td>
-                <td>{user.completedMeetings}</td>
-                <td>{user.rate}/5</td>
-                <td>
-                  <button
-                    className="btn btn-danger btn-sm"
-                    onClick={() => handleDelete(user._id)}
-                  >
-                    delete
-                  </button>
-                </td>
-              </tr>
-            ))}
+            <User users={users} />
           </tbody>
         </table>
       )}

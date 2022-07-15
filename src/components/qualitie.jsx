@@ -1,4 +1,4 @@
-const Qualitie = ({ name, id, color }) => {
+const Qualitie = ({ name, color }) => {
   return (
     <>
       <td>{name}</td>
