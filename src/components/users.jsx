@@ -1,9 +1,5 @@
-import { useState } from "react";
-import api from "../api";
-import SearchStatus from "./searchStatus";
 import User from "./user";
 
-// Компонент Users
 const Users = ({ users, handleDelete }) => {
   return (
     <>
