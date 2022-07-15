@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Users from "./users";
 import SearchStatus from "./searchStatus";
 import api from "../api";
+import Bookmark from "./bookmark";
 
 function App() {
   const [users, setUsers] = useState(api.users.fetchAll()); // Hook useState()
@@ -12,6 +13,7 @@ function App() {
 
   return (
     <>
+      <Bookmark />
       <SearchStatus length={users.length} />
       <Users users={users} handleDelete={handleDelete} />
     </>
