@@ -1,9 +1,9 @@
-const Qualitie = ({ name, color }) => {
+const Qualitie = ({ name, arrQualitie }) => {
   return (
     <>
       <td>{name}</td>
       <td>
-        {color.map((quality) => (
+        {arrQualitie.map((quality) => (
           <span key={quality._id} className={`badge bg-${quality.color} m-1`}>
             {quality.name}
           </span>

@@ -1,9 +1,8 @@
 import User from "./user";
 
-const Users = ({ users, handleDelete }) => {
+const Users = ({ users, handleDelete, handleToggleBookMark }) => {
   return (
     <>
-      {/* <SearchStatus length={users.length} /> */}
       {users.length !== 0 && (
         <table className="table">
           <thead>
@@ -13,11 +12,16 @@ const Users = ({ users, handleDelete }) => {
               <th>Профессия</th>
               <th>Встретился,раз</th>
               <th>Оценка</th>
+              <th>Избранное</th>
               <th></th>
             </tr>
           </thead>
           <tbody>
-            <User users={users} handleDelete={handleDelete} />
+            <User
+              users={users}
+              handleDelete={handleDelete}
+              handleToggleBookMark={handleToggleBookMark}
+            />
           </tbody>
         </table>
       )}
