@@ -1,3 +1,3 @@
 ## Fast-company
 
-###My study project
+### My study project
