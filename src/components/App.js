@@ -12,23 +12,12 @@ function App() {
   const handleDelete = (userId) => {
     setUsers((prevState) => prevState.filter((user) => user._id !== userId));
   };
-  // const handleToggleBookMark = () => {
-  //   if (className) {
-  //     console.log(className);
-  //     className = "bi-bookmark-fill";
-  //   } else {
-  //     className = "bi bi-bookmark";
-  //   }
-  //   console.log("aaaaaaaaaaaaaa");
-  // };
 
   return (
     <>
       <SearchStatus length={users.length} />
       <Users users={users} handleDelete={handleDelete} />
     </>
-
-
   )
 }
 

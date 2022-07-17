@@ -1,6 +1,6 @@
 import User from "./user";
 
-const Users = ({ users, handleDelete, handleToggleBookMark }) => {
+const Users = ({ users, handleDelete }) => {
   return (
     <>
       {users.length !== 0 && (
@@ -17,11 +17,7 @@ const Users = ({ users, handleDelete, handleToggleBookMark }) => {
             </tr>
           </thead>
           <tbody>
-            <User
-              users={users}
-              handleDelete={handleDelete}
-              handleToggleBookMark={handleToggleBookMark}
-            />
+            <User users={users} handleDelete={handleDelete} />
           </tbody>
         </table>
       )}
