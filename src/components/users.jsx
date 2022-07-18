@@ -1,4 +1,5 @@
 import User from "./user";
+import Pagination from "./pagination";
 
 const Users = ({ users, handleDelete }) => {
   return (
@@ -21,6 +22,7 @@ const Users = ({ users, handleDelete }) => {
           </tbody>
         </table>
       )}
+      <Pagination />
     </>
   );
 };
