@@ -9,13 +9,13 @@ const Users = ({ users, handleDelete }) => {
 
   const handlePageChange = (pageIndex) => {
     console.log("page ", pageIndex);
-    setCurrentPage(pageIndex); // изменение state
+    setCurrentPage(pageIndex);
   };
 
-  // обрезали юзеров на массивы по 4 человека без применения lodash
-  const paginate = (users, currentPage, pageSize) => {
-    const startIndex = (currentPage - 1) * pageSize; // найдём откуда резать
-    return [...users].splice(startIndex, pageSize); // и до pageSize
+  // разрезали кол-во человек на массив по 4 человека
+  const paginate = (items, pageNumber, pageSize) => {
+    const startIndex = (pageNumber - 1) * pageSize;
+    return [...items].splice(startIndex, pageSize);
   };
 
   const userCrop = paginate(users, currentPage, pageSize); // (4) [{…}, {…}, {…}, {…}] по 4 человека
