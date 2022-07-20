@@ -1,7 +1,10 @@
+import React from "react";
+
 import Qualitie from "./qualitie";
 import BookMark from "./bookmark";
+import PropTypes from "prop-types";
 
-const User = ({ users, handleDelete, userCrop }) => {
+const User = ({ handleDelete, userCrop }) => {
   return userCrop.map((user) => (
     <tr key={user._id}>
       <Qualitie name={user.name} arrQualitie={user.qualities} />
@@ -21,6 +24,10 @@ const User = ({ users, handleDelete, userCrop }) => {
       </td>
     </tr>
   ));
+};
+User.propTypes = {
+  handleDelete: PropTypes.func.isRequired,
+  userCrop: PropTypes.array.isRequired
 };
 
 export default User;

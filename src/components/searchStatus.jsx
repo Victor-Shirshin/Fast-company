@@ -1,12 +1,15 @@
+import React from "react";
+import PropTypes from "prop-types";
+
 const SearchStatus = ({ length }) => {
-  let addRenderClass = length === 0 ? "danger" : "primary";
+  const addRenderClass = length === 0 ? "danger" : "primary";
 
   const renderPhrase = (number) => {
     const arr = [
       "человека тусанут",
       "человек тусанёт",
       "человек тусанут",
-      "Никто с тобой не тусанёт",
+      "Никто с тобой не тусанёт"
     ];
     //   if (number === 0) {
     //     return `${arr[3]}`;
@@ -59,6 +62,9 @@ const SearchStatus = ({ length }) => {
       )}`}</span>
     </h2>
   );
+};
+SearchStatus.propTypes = {
+  length: PropTypes.number.isRequired
 };
 
 export default SearchStatus;

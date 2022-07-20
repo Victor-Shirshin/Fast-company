@@ -1,3 +1,4 @@
+import React from "react";
 import _ from "lodash";
 import PropTypes from "prop-types";
 
@@ -5,7 +6,7 @@ const Pagination = ({
   itemsCount,
   pageSize,
   handlePageChange,
-  currentPage,
+  currentPage
 }) => {
   // вычислим какое кол-во страниц необходимо отобразить
   const pageCount = Math.ceil(itemsCount / pageSize);
@@ -39,7 +40,7 @@ Pagination.propTypes = {
   itemsCount: PropTypes.number.isRequired,
   pageSize: PropTypes.number.isRequired,
   handlePageChange: PropTypes.func.isRequired,
-  currentPage: PropTypes.number.isRequired,
+  currentPage: PropTypes.number.isRequired
 };
 
 export default Pagination;

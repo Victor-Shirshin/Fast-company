@@ -1,6 +1,8 @@
+import React, { useState } from "react";
+import PropTypes from "prop-types";
+
 import User from "./user";
 import Pagination from "./pagination";
-import { useState } from "react";
 
 const Users = ({ users, handleDelete }) => {
   const count = users.length;
@@ -18,7 +20,7 @@ const Users = ({ users, handleDelete }) => {
     return [...items].splice(startIndex, pageSize);
   };
 
-  const userCrop = paginate(users, currentPage, pageSize); // (4) [{…}, {…}, {…}, {…}] по 4 человека
+  const userCrop = paginate(users, currentPage, pageSize); // (4)[{…}, {…}, {…}, {…}] по 4 человека
 
   return (
     <>
@@ -52,6 +54,10 @@ const Users = ({ users, handleDelete }) => {
       />
     </>
   );
+};
+Users.propTypes = {
+  handleDelete: PropTypes.func.isRequired,
+  users: PropTypes.object.isRequired
 };
 
 export default Users;

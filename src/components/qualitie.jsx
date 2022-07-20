@@ -1,3 +1,6 @@
+import React from "react";
+import PropTypes from "prop-types";
+
 const Qualitie = ({ name, arrQualitie }) => {
   return (
     <>
@@ -11,6 +14,10 @@ const Qualitie = ({ name, arrQualitie }) => {
       </td>
     </>
   );
+};
+Qualitie.propTypes = {
+  name: PropTypes.string.isRequired,
+  arrQualitie: PropTypes.array.isRequired
 };
 
 export default Qualitie;

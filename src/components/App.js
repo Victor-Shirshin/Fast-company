@@ -18,7 +18,7 @@ function App() {
       <SearchStatus length={users.length} />
       <Users users={users} handleDelete={handleDelete} />
     </>
-  )
+  );
 }
 
 export default App;
