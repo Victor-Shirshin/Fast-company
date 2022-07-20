@@ -1,8 +1,8 @@
 import Qualitie from "./qualitie";
 import BookMark from "./bookmark";
 
-const User = ({ users, handleDelete }) => {
-  return users.map((user) => (
+const User = ({ users, handleDelete, userCrop }) => {
+  return userCrop.map((user) => (
     <tr key={user._id}>
       <Qualitie name={user.name} arrQualitie={user.qualities} />
       <td>{user.profession.name}</td>
