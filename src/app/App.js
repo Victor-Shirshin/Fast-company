@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 
-import Users from "./users";
-import SearchStatus from "./searchStatus";
+import Users from "../app/components/users";
+import SearchStatus from "../app/components/searchStatus";
 
-import api from "../api";
+import api from "../app/api/index";
 
 function App() {
   const [users, setUsers] = useState(api.users.fetchAll());
