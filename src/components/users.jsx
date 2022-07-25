@@ -38,11 +38,14 @@ const Users = ({ users, handleDelete }) => {
             </tr>
           </thead>
           <tbody>
-            <User
-              users={users}
-              handleDelete={handleDelete}
-              userCrop={userCrop}
-            />
+            {userCrop.map((user) => (
+              <User
+                {...user}
+                handleDelete={handleDelete}
+                key={user._id}
+                // {...rest}
+              />
+            ))}
           </tbody>
         </table>
       )}
@@ -57,7 +60,7 @@ const Users = ({ users, handleDelete }) => {
 };
 Users.propTypes = {
   handleDelete: PropTypes.func.isRequired,
-  users: PropTypes.object.isRequired
+  users: PropTypes.array.isRequired
 };
 
 export default Users;
