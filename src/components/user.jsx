@@ -15,7 +15,12 @@ const User = ({
 }) => {
   return (
     <tr>
-      <Qualitie name={name} arrQualitie={qualities} />
+      <td>{name}</td>
+      <td>
+        {qualities.map((item) => (
+          <Qualitie {...item} key={item._id} />
+        ))}
+      </td>
       <td>{profession.name}</td>
       <td>{completedMeetings}</td>
       <td>{rate}/5</td>
