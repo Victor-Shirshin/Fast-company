@@ -8,13 +8,9 @@ const Pagination = ({
   handlePageChange,
   currentPage
 }) => {
-  // вычислим какое кол-во страниц необходимо отобразить
-  const pageCount = Math.ceil(itemsCount / pageSize);
+  const pageCount = Math.ceil(itemsCount / pageSize); // кол-во страниц отобразить
   if (pageCount === 1) return null; // чтобы не отображать одну страницу
-  console.log(pageCount); // кол-во страниц
-  // теперь из числа нужно реализовать массив можно сделать цикл и каждый раз добавлять 1 но у нас есть lodash
   const pages = _.range(1, pageCount + 1); // массив pages [1, 2, 3]
-  console.log(pages);
 
   return (
     <nav>
