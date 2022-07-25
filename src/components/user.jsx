@@ -3,7 +3,6 @@ import React from "react";
 import Qualitie from "./qualitie";
 import BookMark from "./bookmark";
 import PropTypes from "prop-types";
-// import _ from "lodash";
 
 const User = ({
   handleDelete,
@@ -15,7 +14,7 @@ const User = ({
   rate
 }) => {
   return (
-    <tr key={_id}>
+    <tr>
       <Qualitie name={name} arrQualitie={qualities} />
       <td>{profession.name}</td>
       <td>{completedMeetings}</td>
@@ -36,14 +35,12 @@ const User = ({
 };
 User.propTypes = {
   handleDelete: PropTypes.func.isRequired,
-  // userCrop: PropTypes.array.isRequired,
   _id: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
   qualities: PropTypes.array,
   profession: PropTypes.object.isRequired,
   completedMeetings: PropTypes.number.isRequired,
-  rate: PropTypes.number.isRequired,
-  bookmark: PropTypes.bool
+  rate: PropTypes.number.isRequired
 };
 
 export default User;
