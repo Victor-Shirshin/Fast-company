@@ -37,9 +37,9 @@ const SearchStatus = ({ length }) => {
 
   return (
     <h2>
-      <span className={`badge bg-${addRenderClass}`}>{`${renderPhrase(
-        length
-      )}`}</span>
+      <span className={`badge bg-${addRenderClass}`}>
+        {renderPhrase(length)}
+      </span>
     </h2>
   );
 };
