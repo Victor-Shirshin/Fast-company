@@ -1,21 +1,16 @@
-import React, { useState } from "react";
+import React from "react";
+import PropTypes from "prop-types";
 
-const BookMark = () => {
-  const [className, setClass] = useState("bi bi-bookmark");
-
-  const handleToggleBookMark = () => {
-    if (className === "bi bi-bookmark") {
-      setClass((prevState) => (prevState = "bi bi-bookmark-star-fill"));
-    } else {
-      setClass((prevState) => (prevState = "bi bi-bookmark"));
-    }
-  };
-
+const BookMark = ({ status, ...rest }) => {
   return (
-    <button>
-      <i className={className} onClick={handleToggleBookMark}></i>
+    <button {...rest}>
+      <i className={"bi bi-bookmark" + (status ? "-star-fill" : "")}></i>
     </button>
   );
+};
+
+BookMark.propTypes = {
+  status: PropTypes.bool
 };
 
 export default BookMark;

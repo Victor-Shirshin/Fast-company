@@ -1,8 +1,8 @@
 import React from "react";
+import PropTypes from "prop-types";
 
 import Qualitie from "./qualitie";
 import BookMark from "./bookmark";
-import PropTypes from "prop-types";
 
 const User = ({
   handleDelete,
@@ -11,7 +11,9 @@ const User = ({
   qualities,
   profession,
   completedMeetings,
-  rate
+  rate,
+  handleToggleBookMark,
+  bookmark
 }) => {
   return (
     <tr>
@@ -25,7 +27,7 @@ const User = ({
       <td>{completedMeetings}</td>
       <td>{rate}/5</td>
       <td>
-        <BookMark />
+        <BookMark status={bookmark} onClick={() => handleToggleBookMark(_id)} />
       </td>
       <td>
         <button
@@ -42,10 +44,12 @@ User.propTypes = {
   handleDelete: PropTypes.func.isRequired,
   _id: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
-  qualities: PropTypes.array,
+  qualities: PropTypes.array.isRequired,
   profession: PropTypes.object.isRequired,
   completedMeetings: PropTypes.number.isRequired,
-  rate: PropTypes.number.isRequired
+  rate: PropTypes.number.isRequired,
+  handleToggleBookMark: PropTypes.func.isRequired,
+  bookmark: PropTypes.bool.isRequired
 };
 
 export default User;

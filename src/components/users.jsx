@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import User from "./user";
 import Pagination from "./pagination";
 
-const Users = ({ users, handleDelete }) => {
+const Users = ({ users, handleDelete, handleToggleBookMark }) => {
   const count = users.length;
   const pageSize = 4; // сколько человек хотим отобразить на странице
   const [currentPage, setCurrentPage] = useState(1);
@@ -42,8 +42,8 @@ const Users = ({ users, handleDelete }) => {
               <User
                 {...user}
                 handleDelete={handleDelete}
+                handleToggleBookMark={handleToggleBookMark}
                 key={user._id}
-                // {...rest}
               />
             ))}
           </tbody>
@@ -60,7 +60,8 @@ const Users = ({ users, handleDelete }) => {
 };
 Users.propTypes = {
   handleDelete: PropTypes.func.isRequired,
-  users: PropTypes.array.isRequired
+  users: PropTypes.array.isRequired,
+  handleToggleBookMark: PropTypes.func.isRequired
 };
 
 export default Users;
