@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
 
+import api from "../api";
+
 import User from "./user";
 import Pagination from "./pagination";
 
@@ -8,6 +10,7 @@ const Users = ({ users, handleDelete, handleToggleBookMark }) => {
   const count = users.length;
   const pageSize = 4; // сколько человек хотим отобразить на странице
   const [currentPage, setCurrentPage] = useState(1);
+  const [professions] = useState(api.professions.fetchAll());
 
   const handlePageChange = (pageIndex) => {
     console.log("page ", pageIndex);

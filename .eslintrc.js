@@ -21,6 +21,9 @@ module.exports = {
     "space-before-function-paren": ["error", { anonymous: "always", named: "never" }],
 
     // Использование двойных кавычек
-    quotes: ["error", "double", { allowTemplateLiterals: true }]
+    quotes: ["error", "double", { allowTemplateLiterals: true }],
+
+    // error: Newline required at end of file but not found. (eol-last)
+    "eol-last": 0,
   }
 };
