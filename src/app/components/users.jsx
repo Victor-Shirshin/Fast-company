@@ -18,6 +18,10 @@ const Users = ({ users, handleDelete, handleToggleBookMark }) => {
     api.professions.fetchAll().then((data) => setProfessions(data));
   }, []);
 
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [selectedProf]);
+
   const handleProfessionSelect = (item) => {
     setSelectedProf(item);
   };
