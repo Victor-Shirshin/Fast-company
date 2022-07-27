@@ -37,14 +37,24 @@ const Users = ({ users, handleDelete, handleToggleBookMark }) => {
     ? users.filter((user) => user.profession === selectedProf)
     : users;
   const userCrop = paginate(filteredUsers, currentPage, pageSize);
+
+  const clearFilter = () => {
+    setSelectedProf();
+  };
+
   return (
     <>
       {professions && (
-        <GroupList
-          selectedItem={selectedProf}
-          items={professions}
-          onItemSelect={handleProfessionSelect}
-        />
+        <>
+          <GroupList
+            selectedItem={selectedProf}
+            items={professions}
+            onItemSelect={handleProfessionSelect}
+          />
+          <button className="btn btn-secondary mt-2" onClick={clearFilter}>
+            Очистить
+          </button>
+        </>
       )}
       {count !== 0 && (
         <table className="table">
