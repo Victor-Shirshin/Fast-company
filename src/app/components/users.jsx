@@ -15,10 +15,6 @@ const Users = ({ users, handleDelete, handleToggleBookMark }) => {
 
   useEffect(() => {
     api.professions.fetchAll().then((data) => setProfessions(data));
-    console.log("render");
-    // return () => {
-    //   console.log("unmount");
-    // };
   }, []);
 
   const handleProfessionSelect = (param) => {
@@ -41,12 +37,7 @@ const Users = ({ users, handleDelete, handleToggleBookMark }) => {
   return (
     <>
       {professions && (
-        <GroupList
-          items={professions}
-          onItemSelect={handleProfessionSelect}
-          valueProps="_id"
-          contentProps="name"
-        />
+        <GroupList items={professions} onItemSelect={handleProfessionSelect} />
       )}
       {count !== 0 && (
         <table className="table">
