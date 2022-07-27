@@ -44,10 +44,9 @@ const Users = ({ users, handleDelete, handleToggleBookMark }) => {
   };
 
   return (
-    <>
-      <SearchStatus length={count} />
+    <div className="d-flex">
       {professions && (
-        <>
+        <div className="d-flex flex-column flex-shrink-0 p-3">
           <GroupList
             selectedItem={selectedProf}
             items={professions}
@@ -56,40 +55,45 @@ const Users = ({ users, handleDelete, handleToggleBookMark }) => {
           <button className="btn btn-secondary mt-2" onClick={clearFilter}>
             Очистить
           </button>
-        </>
+        </div>
       )}
-      {count !== 0 && (
-        <table className="table">
-          <thead>
-            <tr>
-              <th>Имя</th>
-              <th>Качества</th>
-              <th>Профессия</th>
-              <th>Встретился,раз</th>
-              <th>Оценка</th>
-              <th>Избранное</th>
-              <th></th>
-            </tr>
-          </thead>
-          <tbody>
-            {userCrop.map((user) => (
-              <User
-                {...user}
-                handleDelete={handleDelete}
-                handleToggleBookMark={handleToggleBookMark}
-                key={user._id}
-              />
-            ))}
-          </tbody>
-        </table>
-      )}
-      <Pagination
-        itemsCount={count} // длинна массива кол-во юзеров
-        pageSize={pageSize}
-        handlePageChange={handlePageChange}
-        currentPage={currentPage}
-      />
-    </>
+      <div className="d-flex flex-column">
+        <SearchStatus length={count} />
+        {count !== 0 && (
+          <table className="table">
+            <thead>
+              <tr>
+                <th>Имя</th>
+                <th>Качества</th>
+                <th>Профессия</th>
+                <th>Встретился,раз</th>
+                <th>Оценка</th>
+                <th>Избранное</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              {userCrop.map((user) => (
+                <User
+                  {...user}
+                  handleDelete={handleDelete}
+                  handleToggleBookMark={handleToggleBookMark}
+                  key={user._id}
+                />
+              ))}
+            </tbody>
+          </table>
+        )}
+        <div className="d-flex justify-content-center">
+          <Pagination
+            itemsCount={count} // длинна массива кол-во юзеров
+            pageSize={pageSize}
+            handlePageChange={handlePageChange}
+            currentPage={currentPage}
+          />
+        </div>
+      </div>
+    </div>
   );
 };
 Users.propTypes = {
