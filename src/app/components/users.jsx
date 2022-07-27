@@ -6,13 +6,13 @@ import api from "../api";
 import User from "./user";
 import Pagination from "./pagination";
 import GroupList from "./groupList";
+import SearchStatus from "./searchStatus";
 
 const Users = ({ users, handleDelete, handleToggleBookMark }) => {
-  const count = users.length;
-  const pageSize = 4; // сколько человек хотим отобразить на странице
   const [currentPage, setCurrentPage] = useState(1);
   const [professions, setProfessions] = useState();
   const [selectedProf, setSelectedProf] = useState();
+  const pageSize = 4; // сколько человек хотим отобразить на странице
 
   useEffect(() => {
     api.professions.fetchAll().then((data) => setProfessions(data));
@@ -23,7 +23,6 @@ const Users = ({ users, handleDelete, handleToggleBookMark }) => {
   };
 
   const handlePageChange = (pageIndex) => {
-    console.log("page ", pageIndex);
     setCurrentPage(pageIndex);
   };
 
@@ -38,12 +37,15 @@ const Users = ({ users, handleDelete, handleToggleBookMark }) => {
     : users;
   const userCrop = paginate(filteredUsers, currentPage, pageSize);
 
+  const count = filteredUsers.length;
+
   const clearFilter = () => {
     setSelectedProf();
   };
 
   return (
     <>
+      <SearchStatus length={count} />
       {professions && (
         <>
           <GroupList
