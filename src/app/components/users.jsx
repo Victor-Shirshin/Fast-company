@@ -33,8 +33,10 @@ const Users = ({ users, handleDelete, handleToggleBookMark }) => {
     return [...items].splice(startIndex, pageSize);
   };
 
-  const userCrop = paginate(users, currentPage, pageSize); // (4)[{…}, {…}, {…}, {…}] по 4 человека
-
+  const filteredUsers = selectedProf
+    ? users.filter((user) => user.profession === selectedProf)
+    : users;
+  const userCrop = paginate(filteredUsers, currentPage, pageSize);
   return (
     <>
       {professions && (
