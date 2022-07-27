@@ -1,16 +1,29 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 
 import api from "../api";
 
 import User from "./user";
 import Pagination from "./pagination";
+import GroupList from "./groupList";
 
 const Users = ({ users, handleDelete, handleToggleBookMark }) => {
   const count = users.length;
   const pageSize = 4; // сколько человек хотим отобразить на странице
   const [currentPage, setCurrentPage] = useState(1);
-  const [professions] = useState(api.professions.fetchAll());
+  const [professions, setProfessions] = useState();
+
+  useEffect(() => {
+    api.professions.fetchAll().then((data) => setProfessions(data));
+    console.log("render");
+    // return () => {
+    //   console.log("unmount");
+    // };
+  }, []);
+
+  const handleProfessionSelect = (param) => {
+    console.log(param);
+  };
 
   const handlePageChange = (pageIndex) => {
     console.log("page ", pageIndex);
@@ -27,6 +40,14 @@ const Users = ({ users, handleDelete, handleToggleBookMark }) => {
 
   return (
     <>
+      {professions && (
+        <GroupList
+          items={professions}
+          onItemSelect={handleProfessionSelect}
+          valueProps="_id"
+          contentProps="name"
+        />
+      )}
       {count !== 0 && (
         <table className="table">
           <thead>
