@@ -12,13 +12,14 @@ const Users = ({ users, handleDelete, handleToggleBookMark }) => {
   const pageSize = 4; // сколько человек хотим отобразить на странице
   const [currentPage, setCurrentPage] = useState(1);
   const [professions, setProfessions] = useState();
+  const [selectedProf, setSelectedProf] = useState();
 
   useEffect(() => {
     api.professions.fetchAll().then((data) => setProfessions(data));
   }, []);
 
-  const handleProfessionSelect = (param) => {
-    console.log(param);
+  const handleProfessionSelect = (item) => {
+    setSelectedProf(item);
   };
 
   const handlePageChange = (pageIndex) => {
@@ -37,7 +38,11 @@ const Users = ({ users, handleDelete, handleToggleBookMark }) => {
   return (
     <>
       {professions && (
-        <GroupList items={professions} onItemSelect={handleProfessionSelect} />
+        <GroupList
+          selectedItem={selectedProf}
+          items={professions}
+          onItemSelect={handleProfessionSelect}
+        />
       )}
       {count !== 0 && (
         <table className="table">
