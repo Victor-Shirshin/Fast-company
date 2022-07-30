@@ -1,4 +1,4 @@
-import { professions } from "./professions.api";
+import { professionsObject as professions } from "./professions.api";
 
 const qualities = {
   tedious: {
@@ -142,7 +142,7 @@ const users = [
     rate: 5,
     bookmark: false
   },
-  // ------------------------------------------------------
+  // ----------------------- Добавлены более 12 человек для тестов -------------------------------
   {
     _id: "67rdca3eeb7f6fgeed47181u",
     name: "Джон Дориан",
@@ -251,7 +251,6 @@ const users = [
     rate: 5,
     bookmark: false
   },
-  // ==============================================
   {
     _id: "67rdca3eeb7f6fgeed47182u",
     name: "Джон Дориан",
@@ -362,6 +361,13 @@ const users = [
   }
 ];
 
-export function fetchAll() {
-  return users;
-}
+const fetchAll = () =>
+  new Promise((resolve) => {
+    window.setTimeout(function () {
+      resolve(users);
+    }, 2000);
+  });
+
+export default {
+  fetchAll
+};

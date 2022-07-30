@@ -13,7 +13,10 @@ module.exports = {
   },
   plugins: ["react"],
   rules: {
-    // indent: ["error", 4], // Отступ количество пробелов
+    // error:  Expected indentation of 6 spaces but found 8   indent
+    "indent": 0, // решение ошибки
+    // indent: ["error", 2], // это правило ошибку не устраняло
+
     semi: [2, "always"], // Точка с запятой в конце строки
 
     // Правила для пробелов у 'именнованной' и 'неименнованной' функции
@@ -23,7 +26,7 @@ module.exports = {
     // Использование двойных кавычек
     quotes: ["error", "double", { allowTemplateLiterals: true }],
 
-    // error: Newline required at end of file but not found. (eol-last)
-    "eol-last": 0,
+    // error: Newline required at end of file but not found. (eol-last) 
+    "eol-last": 0, // решение ошибки
   }
 };

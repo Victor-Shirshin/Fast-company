@@ -37,9 +37,18 @@ const Users = ({ users, handleDelete, handleToggleBookMark }) => {
   };
 
   const filteredUsers = selectedProf
-    ? users.filter((user) => user.profession === selectedProf)
+    ? users.filter(
+        (user) =>
+          JSON.stringify(user.profession) === JSON.stringify(selectedProf)
+      )
     : users;
+
   const userCrop = paginate(filteredUsers, currentPage, pageSize);
+
+  // Условие добавил для устранения бага который не отображал пользователей если удалены все пользователи на последней странице у выбранной профессии.
+  if (userCrop.length === 0 && currentPage > -1) {
+    setCurrentPage((prevState) => prevState - 1);
+  }
 
   const count = filteredUsers.length;
 
