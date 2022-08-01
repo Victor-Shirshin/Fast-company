@@ -31,6 +31,10 @@ const Users = ({ users, handleDelete, handleToggleBookMark }) => {
     setCurrentPage(pageIndex);
   };
 
+  const handleSort = (item) => {
+    console.log(item);
+  };
+
   // разрезали кол-во человек на массив по 4 человека
   const paginate = (items, pageNumber, pageSize) => {
     const startIndex = (pageNumber - 1) * pageSize;
@@ -78,6 +82,7 @@ const Users = ({ users, handleDelete, handleToggleBookMark }) => {
             userCrop={userCrop}
             handleDelete={handleDelete}
             handleToggleBookMark={handleToggleBookMark}
+            onSort={handleSort}
           />
         )}
         <div className="d-flex justify-content-center">
