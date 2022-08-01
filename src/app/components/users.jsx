@@ -2,8 +2,8 @@ import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 
 import api from "../api";
+import _ from "lodash";
 
-// import User from "./user";
 import Pagination from "./pagination";
 import GroupList from "./groupList";
 import SearchStatus from "./searchStatus";
@@ -13,7 +13,8 @@ const Users = ({ users, handleDelete, handleToggleBookMark }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [professions, setProfessions] = useState();
   const [selectedProf, setSelectedProf] = useState();
-  const pageSize = 4; // сколько человек хотим отобразить на странице
+  const [sortBy, setSortBy] = useState({ iterator: "name", order: "asc" });
+  const pageSize = 8; // сколько человек хотим отобразить на странице
 
   useEffect(() => {
     api.professions.fetchAll().then((data) => setProfessions(data));
@@ -32,7 +33,14 @@ const Users = ({ users, handleDelete, handleToggleBookMark }) => {
   };
 
   const handleSort = (item) => {
-    console.log(item);
+    if (sortBy.iterator === item) {
+      setSortBy((prevState) => ({
+        ...prevState,
+        order: prevState.order === "asc" ? "desc" : "asc"
+      }));
+    } else {
+      setSortBy({ iterator: item, order: "asc" });
+    }
   };
 
   // разрезали кол-во человек на массив по 4 человека
@@ -47,15 +55,18 @@ const Users = ({ users, handleDelete, handleToggleBookMark }) => {
           JSON.stringify(user.profession) === JSON.stringify(selectedProf)
       )
     : users;
-
-  const userCrop = paginate(filteredUsers, currentPage, pageSize);
+  const count = filteredUsers.length;
+  const sortedUsers = _.orderBy(
+    filteredUsers,
+    [sortBy.iterator],
+    [sortBy.order]
+  );
+  const userCrop = paginate(sortedUsers, currentPage, pageSize);
 
   // Условие добавил для устранения бага который не отображал пользователей если удалены все пользователи на последней странице у выбранной профессии.
   if (userCrop.length === 0 && currentPage > -1) {
     setCurrentPage((prevState) => prevState - 1);
   }
-
-  const count = filteredUsers.length;
 
   const clearFilter = () => {
     setSelectedProf();
