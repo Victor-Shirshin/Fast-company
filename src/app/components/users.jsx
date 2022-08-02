@@ -50,10 +50,7 @@ const Users = ({ users, handleDelete, handleToggleBookMark }) => {
   };
 
   const filteredUsers = selectedProf
-    ? users.filter(
-        (user) =>
-          JSON.stringify(user.profession) === JSON.stringify(selectedProf)
-      )
+    ? users.filter((user) => user.profession._id === selectedProf._id)
     : users;
   const count = filteredUsers.length;
   const sortedUsers = _.orderBy(
