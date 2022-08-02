@@ -84,7 +84,7 @@ const Users = ({ users, handleDelete, handleToggleBookMark }) => {
             handleDelete={handleDelete}
             handleToggleBookMark={handleToggleBookMark}
             onSort={handleSort}
-            currentSort={sortBy}
+            selectedSort={sortBy}
           />
         )}
         <div className="d-flex justify-content-center">

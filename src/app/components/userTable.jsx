@@ -2,40 +2,35 @@ import React from "react";
 import PropTypes from "prop-types";
 
 import User from "./user";
+import TableHeader from "./tableHeader";
 
 const UserTable = ({
   userCrop,
   handleDelete,
   handleToggleBookMark,
-  currentSort,
+  selectedSort,
   onSort
 }) => {
-  const handleSort = (item) => {
-    if (currentSort.iterator === item) {
-      onSort({
-        ...currentSort,
-        order: currentSort.order === "asc" ? "desc" : "asc"
-      });
-    } else {
-      onSort({ iterator: item, order: "asc" });
-    }
+  const columns = {
+    name: { iterator: "name", name: "Имя" },
+    qualities: { name: "Качества" },
+    professions: { iterator: "profession.name", name: "Профессия" },
+    completedMeetings: {
+      iterator: "completedMeetings",
+      name: "Встретился, раз"
+    },
+    rate: { iterator: "rate", name: "Оценка" },
+    bookmark: { iterator: "bookmark", name: "Избранное" },
+    delete: {}
   };
 
   return (
     <table className="table">
-      <thead>
-        <tr>
-          <th onClick={() => handleSort("name")}>Имя</th>
-          <th>Качества</th>
-          <th onClick={() => handleSort("profession.name")}>Профессия</th>
-          <th onClick={() => handleSort("completedMeetings")}>
-            Встретился,раз
-          </th>
-          <th onClick={() => handleSort("rate")}>Оценка</th>
-          <th onClick={() => handleSort("bookmark")}>Избранное</th>
-          <th></th>
-        </tr>
-      </thead>
+      <TableHeader
+        selectedSort={selectedSort}
+        onSort={onSort}
+        columns={columns}
+      />
       <tbody>
         {userCrop.map((user) => (
           <User
@@ -54,8 +49,7 @@ UserTable.propTypes = {
   userCrop: PropTypes.array.isRequired,
   handleDelete: PropTypes.func.isRequired,
   handleToggleBookMark: PropTypes.func.isRequired,
-  // handleSort: PropTypes.func.isRequired,
-  currentSort: PropTypes.object.isRequired,
+  selectedSort: PropTypes.object.isRequired,
   onSort: PropTypes.func.isRequired
 };
 
