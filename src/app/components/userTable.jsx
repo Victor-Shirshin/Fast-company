@@ -7,19 +7,32 @@ const UserTable = ({
   userCrop,
   handleDelete,
   handleToggleBookMark,
+  currentSort,
   onSort
 }) => {
-  console.log(userCrop);
+  const handleSort = (item) => {
+    if (currentSort.iterator === item) {
+      onSort({
+        ...currentSort,
+        order: currentSort.order === "asc" ? "desc" : "asc"
+      });
+    } else {
+      onSort({ iterator: item, order: "asc" });
+    }
+  };
+
   return (
     <table className="table">
       <thead>
         <tr>
-          <th onClick={() => onSort("name")}>Имя</th>
+          <th onClick={() => handleSort("name")}>Имя</th>
           <th>Качества</th>
-          <th onClick={() => onSort("profession.name")}>Профессия</th>
-          <th onClick={() => onSort("completedMeetings")}>Встретился,раз</th>
-          <th onClick={() => onSort("rate")}>Оценка</th>
-          <th onClick={() => onSort("bookmark")}>Избранное</th>
+          <th onClick={() => handleSort("profession.name")}>Профессия</th>
+          <th onClick={() => handleSort("completedMeetings")}>
+            Встретился,раз
+          </th>
+          <th onClick={() => handleSort("rate")}>Оценка</th>
+          <th onClick={() => handleSort("bookmark")}>Избранное</th>
           <th></th>
         </tr>
       </thead>
@@ -41,6 +54,8 @@ UserTable.propTypes = {
   userCrop: PropTypes.array.isRequired,
   handleDelete: PropTypes.func.isRequired,
   handleToggleBookMark: PropTypes.func.isRequired,
+  // handleSort: PropTypes.func.isRequired,
+  currentSort: PropTypes.object.isRequired,
   onSort: PropTypes.func.isRequired
 };
 

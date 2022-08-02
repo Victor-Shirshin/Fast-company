@@ -33,14 +33,7 @@ const Users = ({ users, handleDelete, handleToggleBookMark }) => {
   };
 
   const handleSort = (item) => {
-    if (sortBy.iterator === item) {
-      setSortBy((prevState) => ({
-        ...prevState,
-        order: prevState.order === "asc" ? "desc" : "asc"
-      }));
-    } else {
-      setSortBy({ iterator: item, order: "asc" });
-    }
+    setSortBy(item);
   };
 
   // разрезали кол-во человек на массив по 4 человека
@@ -91,6 +84,7 @@ const Users = ({ users, handleDelete, handleToggleBookMark }) => {
             handleDelete={handleDelete}
             handleToggleBookMark={handleToggleBookMark}
             onSort={handleSort}
+            currentSort={sortBy}
           />
         )}
         <div className="d-flex justify-content-center">
