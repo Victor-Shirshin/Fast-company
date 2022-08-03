@@ -1,8 +1,9 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-import User from "./user";
+// import User from "./user";
 import TableHeader from "./tableHeader";
+import TableBody from "./tableBody";
 
 const UserTable = ({
   userCrop,
@@ -12,15 +13,15 @@ const UserTable = ({
   onSort
 }) => {
   const columns = {
-    name: { iterator: "name", name: "Имя" },
+    name: { path: "name", name: "Имя" },
     qualities: { name: "Качества" },
-    professions: { iterator: "profession.name", name: "Профессия" },
+    professions: { path: "profession.name", name: "Профессия" },
     completedMeetings: {
-      iterator: "completedMeetings",
+      path: "completedMeetings",
       name: "Встретился, раз"
     },
-    rate: { iterator: "rate", name: "Оценка" },
-    bookmark: { iterator: "bookmark", name: "Избранное" },
+    rate: { path: "rate", name: "Оценка" },
+    bookmark: { path: "bookmark", name: "Избранное" },
     delete: {}
   };
 
@@ -31,7 +32,8 @@ const UserTable = ({
         onSort={onSort}
         columns={columns}
       />
-      <tbody>
+      <TableBody data={userCrop} columns={columns} />
+      {/* <tbody>
         {userCrop.map((user) => (
           <User
             {...user}
@@ -40,7 +42,7 @@ const UserTable = ({
             key={user._id}
           />
         ))}
-      </tbody>
+      </tbody> */}
     </table>
   );
 };
