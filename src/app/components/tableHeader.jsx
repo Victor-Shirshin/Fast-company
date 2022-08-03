@@ -18,6 +18,7 @@ const TableHeader = ({ onSort, selectedSort, columns }) => {
       <tr>
         {Object.keys(columns).map((column) => (
           <th
+            scope="col"
             key={column}
             onClick={
               columns[column].path

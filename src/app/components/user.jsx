@@ -30,12 +30,12 @@ const User = ({
         <BookMark status={bookmark} onClick={() => handleToggleBookMark(_id)} />
       </td>
       <td>
-        <button
+        {/* <button
           className="btn btn-danger btn-sm"
           onClick={() => handleDelete(_id)}
         >
           delete
-        </button>
+        </button> */}
       </td>
     </tr>
   );

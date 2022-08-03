@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 // import User from "./user";
 import TableHeader from "./tableHeader";
 import TableBody from "./tableBody";
+import BookMark from "./bookmark";
 
 const UserTable = ({
   userCrop,
@@ -21,8 +22,26 @@ const UserTable = ({
       name: "Встретился, раз"
     },
     rate: { path: "rate", name: "Оценка" },
-    bookmark: { path: "bookmark", name: "Избранное" },
-    delete: {}
+    bookmark: {
+      path: "bookmark",
+      name: "Избранное",
+      component: (userCrop) => (
+        <BookMark
+          status={userCrop.bookmark}
+          onClick={() => handleToggleBookMark(userCrop._id)}
+        />
+      )
+    },
+    delete: {
+      component: (userCrop) => (
+        <button
+          className="btn btn-danger btn-sm"
+          onClick={() => handleDelete(userCrop._id)}
+        >
+          delete
+        </button>
+      )
+    }
   };
 
   return (

@@ -46,11 +46,7 @@ const Users = ({ users, handleDelete, handleToggleBookMark }) => {
     ? users.filter((user) => user.profession._id === selectedProf._id)
     : users;
   const count = filteredUsers.length;
-  const sortedUsers = _.orderBy(
-    filteredUsers,
-    [sortBy.iterator],
-    [sortBy.order]
-  );
+  const sortedUsers = _.orderBy(filteredUsers, [sortBy.path], [sortBy.order]);
   const userCrop = paginate(sortedUsers, currentPage, pageSize);
 
   // Условие добавил для устранения бага который не отображал пользователей если удалены все пользователи на последней странице у выбранной профессии.
