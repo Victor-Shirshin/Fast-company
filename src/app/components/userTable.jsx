@@ -1,11 +1,11 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-// import User from "./user";
 import TableHeader from "./tableHeader";
 import TableBody from "./tableBody";
 import BookMark from "./bookmark";
 import QualitiesList from "./qualitiesList";
+import Table from "./table";
 
 const UserTable = ({
   userCrop,
@@ -14,6 +14,7 @@ const UserTable = ({
   selectedSort,
   onSort
 }) => {
+  console.log("UserTable onSort", onSort);
   const columns = {
     name: { path: "name", name: "Имя" },
     qualities: {
@@ -49,24 +50,27 @@ const UserTable = ({
   };
 
   return (
-    <table className="table">
+    <Table
+      onSort={onSort}
+      selectedSort={selectedSort}
+      columns={columns}
+      userCrop={userCrop}
+    >
       <TableHeader
-        selectedSort={selectedSort}
         onSort={onSort}
+        selectedSort={selectedSort}
         columns={columns}
       />
       <TableBody data={userCrop} columns={columns} />
-      {/* <tbody>
-        {userCrop.map((user) => (
-          <User
-            {...user}
-            handleDelete={handleDelete}
-            handleToggleBookMark={handleToggleBookMark}
-            key={user._id}
-          />
-        ))}
-      </tbody> */}
-    </table>
+    </Table>
+    // <Table>
+    //   <TableHeader
+    //     onSort={onSort}
+    //     selectedSort={selectedSort}
+    //     columns={columns}
+    //   />
+    //   <TableBody data={userCrop} columns={columns} />
+    // </Table>
   );
 };
 
