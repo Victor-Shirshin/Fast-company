@@ -14,7 +14,6 @@ const UserTable = ({
   selectedSort,
   onSort
 }) => {
-  console.log("UserTable onSort", onSort);
   const columns = {
     name: { path: "name", name: "Имя" },
     qualities: {
@@ -50,12 +49,7 @@ const UserTable = ({
   };
 
   return (
-    <Table
-      onSort={onSort}
-      selectedSort={selectedSort}
-      columns={columns}
-      userCrop={userCrop}
-    >
+    <Table>
       <TableHeader
         onSort={onSort}
         selectedSort={selectedSort}
@@ -63,14 +57,13 @@ const UserTable = ({
       />
       <TableBody data={userCrop} columns={columns} />
     </Table>
-    // <Table>
-    //   <TableHeader
-    //     onSort={onSort}
-    //     selectedSort={selectedSort}
-    //     columns={columns}
-    //   />
-    //   <TableBody data={userCrop} columns={columns} />
-    // </Table>
+
+    // <Table
+    //   onSort={onSort}
+    //   selectedSort={selectedSort}
+    //   columns={columns}
+    //   userCrop={userCrop}
+    // />
   );
 };
 

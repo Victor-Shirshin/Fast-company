@@ -5,7 +5,6 @@ import TableBody from "./tableBody";
 import TableHeader from "./tableHeader";
 
 const Table = ({ selectedSort, onSort, columns, userCrop, children }) => {
-  console.log("children", children);
   return (
     <table className="table">
       {children || (
