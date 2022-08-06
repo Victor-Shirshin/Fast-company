@@ -15,8 +15,12 @@ const UserTable = ({
   onSort
 }) => {
   const columns = {
-    name: { path: "name", name: "Имя" },
+    name: {
+      path: "name",
+      name: "Имя"
+    },
     qualities: {
+      path: "",
       name: "Качества",
       component: (user) => <QualitiesList qualities={user.qualities} />
     },
@@ -37,6 +41,7 @@ const UserTable = ({
       )
     },
     delete: {
+      path: "",
       component: (userCrop) => (
         <button
           className="btn btn-danger btn-sm"

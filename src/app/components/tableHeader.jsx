@@ -9,7 +9,10 @@ const TableHeader = ({ onSort, selectedSort, columns }) => {
         order: selectedSort.order === "asc" ? "desc" : "asc"
       });
     } else {
-      onSort({ path: item, order: "asc" });
+      onSort({
+        path: item,
+        order: "asc"
+      });
     }
   };
 
@@ -28,6 +31,13 @@ const TableHeader = ({ onSort, selectedSort, columns }) => {
             {...{ role: columns[column].path && "button" }}
           >
             {columns[column].name}
+            {selectedSort.path === columns[column].path && (
+              <i
+                className={`bi bi-caret-${
+                  selectedSort.order === "asc" ? "up-fill" : "down-fill"
+                }`}
+              ></i>
+            )}
           </th>
         ))}
       </tr>
