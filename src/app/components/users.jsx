@@ -13,7 +13,7 @@ const Users = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [professions, setProfessions] = useState();
   const [selectedProf, setSelectedProf] = useState();
-  const [sortBy, setSortBy] = useState({ iterator: "name", order: "asc" });
+  const [sortBy, setSortBy] = useState({ path: "name", order: "asc" });
   const pageSize = 8; // сколько человек хотим отобразить на странице
 
   const [users, setUsers] = useState();
@@ -119,7 +119,7 @@ const Users = () => {
   }
   return (
     <>
-      <DynamicLoading color={"primary"}>
+      <DynamicLoading>
         <h2>Loading...</h2>
       </DynamicLoading>
     </>

@@ -20,7 +20,6 @@ const UserTable = ({
       name: "Имя"
     },
     qualities: {
-      path: "",
       name: "Качества",
       component: (user) => <QualitiesList qualities={user.qualities} />
     },
@@ -41,7 +40,6 @@ const UserTable = ({
       )
     },
     delete: {
-      path: "",
       component: (userCrop) => (
         <button
           className="btn btn-danger btn-sm"
