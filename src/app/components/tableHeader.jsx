@@ -15,7 +15,7 @@ const TableHeader = ({ onSort, selectedSort, columns }) => {
       });
     }
   };
-  console.log(selectedSort.path);
+
   return (
     <thead>
       <tr>
