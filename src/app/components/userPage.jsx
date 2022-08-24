@@ -1,17 +1,15 @@
 import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
-import { useHistory, useParams } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 
 import api from "../api";
 
-import Qualitie from "./qualitie";
+import QualitiesList from "./qualitiesList";
 
-const UserPage = () => {
+const UserPage = ({ userId }) => {
   const [user, setUser] = useState();
 
   const history = useHistory();
-  const params = useParams();
-  const { userId } = params;
 
   useEffect(() => {
     api.users.getById(userId).then((user) => setUser(user));
@@ -27,9 +25,7 @@ const UserPage = () => {
         <h2>{user.name}</h2>
         <h3>Профессия: {user.profession.name}</h3>
         <div>
-          {user.qualities.map((item) => (
-            <Qualitie {...item} key={item._id} />
-          ))}
+          <QualitiesList qualities={user.qualities} />
         </div>
         <h5>completedMeetings: {user.completedMeetings}</h5>
         <h3>Rate: {user.rate}</h3>
@@ -46,8 +42,7 @@ const UserPage = () => {
 };
 
 UserPage.propTypes = {
-  match: PropTypes.object.isRequired,
-  history: PropTypes.object.isRequired
+  userId: PropTypes.string.isRequired
 };
 
 export default UserPage;

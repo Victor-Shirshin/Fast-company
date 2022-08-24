@@ -1,20 +1,16 @@
 import React, { useState, useEffect } from "react";
-import { Route, Switch } from "react-router-dom";
 
 import api from "../api";
 import _ from "lodash";
+import { paginate } from "../utils/paginate";
 
 import Pagination from "./pagination";
 import GroupList from "./groupList";
 import SearchStatus from "./searchStatus";
 import UsersTable from "./usersTable";
 import DynamicLoading from "./DynamicLoading";
-import NavBar from "./navBar";
-import Main from "./main";
-import Login from "./login";
-import UserPage from "./userPage";
 
-const Users = () => {
+const UsersList = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [professions, setProfessions] = useState();
   const [selectedProf, setSelectedProf] = useState();
@@ -33,14 +29,13 @@ const Users = () => {
   };
 
   const handleToggleBookMark = (id) => {
-    setUsers(
-      users.map((user) => {
-        if (user._id === id) {
-          return { ...user, bookmark: !user.bookmark };
-        }
-        return user;
-      })
-    );
+    const newArray = users.map((user) => {
+      if (user._id === id) {
+        return { ...user, bookmark: !user.bookmark };
+      }
+      return user;
+    });
+    setUsers(newArray);
   };
 
   useEffect(() => {
@@ -63,12 +58,6 @@ const Users = () => {
     setSortBy(item);
   };
 
-  // разрезали кол-во человек на массив по 4 человека
-  const paginate = (items, pageNumber, pageSize) => {
-    const startIndex = (pageNumber - 1) * pageSize;
-    return [...items].splice(startIndex, pageSize);
-  };
-
   if (users) {
     const filteredUsers = selectedProf
       ? users.filter((user) => user.profession._id === selectedProf._id)
@@ -87,51 +76,40 @@ const Users = () => {
 
     return (
       <>
-        <NavBar />
-        <Switch>
-          <Route path="/users/:userId" component={UserPage} />
-          <Route path="/users">
-            <div className="d-flex">
-              {professions && (
-                <div className="d-flex flex-column flex-shrink-0 p-3">
-                  <GroupList
-                    selectedItem={selectedProf}
-                    items={professions}
-                    onItemSelect={handleProfessionSelect}
-                  />
-                  <button
-                    className="btn btn-secondary mt-2"
-                    onClick={clearFilter}
-                  >
-                    Очистить
-                  </button>
-                </div>
-              )}
-              <div className="d-flex flex-column">
-                <SearchStatus length={count} />
-                {count !== 0 && (
-                  <UsersTable
-                    userCrop={userCrop}
-                    handleDelete={handleDelete}
-                    handleToggleBookMark={handleToggleBookMark}
-                    onSort={handleSort}
-                    selectedSort={sortBy}
-                  />
-                )}
-                <div className="d-flex justify-content-center">
-                  <Pagination
-                    itemsCount={count} // длинна массива кол-во юзеров
-                    pageSize={pageSize}
-                    handlePageChange={handlePageChange}
-                    currentPage={currentPage}
-                  />
-                </div>
-              </div>
+        <div className="d-flex">
+          {professions && (
+            <div className="d-flex flex-column flex-shrink-0 p-3">
+              <GroupList
+                selectedItem={selectedProf}
+                items={professions}
+                onItemSelect={handleProfessionSelect}
+              />
+              <button className="btn btn-secondary mt-2" onClick={clearFilter}>
+                Очистить
+              </button>
             </div>
-          </Route>
-          <Route path="/login" component={Login} />
-          <Route path="/" component={Main} />
-        </Switch>
+          )}
+          <div className="d-flex flex-column">
+            <SearchStatus length={count} />
+            {count !== 0 && (
+              <UsersTable
+                userCrop={userCrop}
+                handleDelete={handleDelete}
+                handleToggleBookMark={handleToggleBookMark}
+                onSort={handleSort}
+                selectedSort={sortBy}
+              />
+            )}
+            <div className="d-flex justify-content-center">
+              <Pagination
+                itemsCount={count} // длинна массива кол-во юзеров
+                pageSize={pageSize}
+                handlePageChange={handlePageChange}
+                currentPage={currentPage}
+              />
+            </div>
+          </div>
+        </div>
       </>
     );
   }
@@ -144,4 +122,4 @@ const Users = () => {
   );
 };
 
-export default Users;
+export default UsersList;
