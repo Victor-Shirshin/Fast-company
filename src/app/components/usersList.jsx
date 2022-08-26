@@ -50,6 +50,7 @@ const UsersList = () => {
 
   const handleProfessionSelect = (item) => {
     setSelectedProf(item);
+    setSearchField("");
   };
 
   const handlePageChange = (pageIndex) => {
@@ -60,9 +61,9 @@ const UsersList = () => {
     setSortBy(item);
   };
 
-  const searchUser = ({ target }) => {
-    console.log("target.value", target.value);
-    setSearchField(target.value); // устанавливаю в state значение input
+  const handleChangeSearch = ({ target }) => {
+    setSearchField(target.value);
+    setSelectedProf();
   };
 
   if (users) {
@@ -70,7 +71,15 @@ const UsersList = () => {
       ? users.filter((user) =>
           user.name.toLowerCase().includes(searchField.toLowerCase())
         )
+      : selectedProf
+      ? users.filter((user) => user.profession._id === selectedProf._id)
       : users;
+
+    // const filteredUsers = searchField
+    //   ? users.filter((user) =>
+    //       user.name.toLowerCase().includes(searchField.toLowerCase())
+    //     )
+    //   : users;
     // const filteredUsers = selectedProf
     //   ? users.filter((user) => user.profession._id === selectedProf._id)
     //   : users;
@@ -103,7 +112,10 @@ const UsersList = () => {
           )}
           <div className="d-flex flex-column">
             <SearchStatus length={count} />
-            <Search searchUser={searchUser} />
+            <Search
+              handleChangeSearch={handleChangeSearch}
+              searchField={searchField}
+            />
             {count !== 0 && (
               <UsersTable
                 userCrop={userCrop}

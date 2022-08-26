@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-const Search = ({ searchUser }) => {
+const Search = ({ handleChangeSearch, searchField }) => {
   return (
     <form className="d-flex">
       <input
@@ -9,14 +9,16 @@ const Search = ({ searchUser }) => {
         type="text"
         placeholder="Search..."
         // aria-label="Search"
-        onChange={searchUser}
+        onChange={handleChangeSearch}
+        value={searchField}
       />
     </form>
   );
 };
 
 Search.propTypes = {
-  searchUser: PropTypes.func.isRequired
+  handleChangeSearch: PropTypes.func.isRequired,
+  searchField: PropTypes.string.isRequired
 };
 
 export default Search;
