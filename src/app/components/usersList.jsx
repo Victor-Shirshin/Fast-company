@@ -9,6 +9,7 @@ import GroupList from "./groupList";
 import SearchStatus from "./searchStatus";
 import UsersTable from "./usersTable";
 import DynamicLoading from "./DynamicLoading";
+import Search from "./search";
 
 const UsersList = () => {
   const [currentPage, setCurrentPage] = useState(1);
@@ -16,12 +17,21 @@ const UsersList = () => {
   const [selectedProf, setSelectedProf] = useState();
   const [sortBy, setSortBy] = useState({ path: "name", order: "asc" });
   const [users, setUsers] = useState();
+  const [searchField, setSearchField] = useState("");
 
   const pageSize = 8; // сколько человек хотим отобразить на странице
 
   useEffect(() => {
     api.users.fetchAll().then((data) => setUsers(data));
+  });
+
+  useEffect(() => {
+    api.professions.fetchAll().then((data) => setProfessions(data));
   }, []);
+
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [selectedProf]);
 
   // удаление элемента при 'клике' на button
   const handleDelete = (userId) => {
@@ -38,14 +48,6 @@ const UsersList = () => {
     setUsers(newArray);
   };
 
-  useEffect(() => {
-    api.professions.fetchAll().then((data) => setProfessions(data));
-  }, []);
-
-  useEffect(() => {
-    setCurrentPage(1);
-  }, [selectedProf]);
-
   const handleProfessionSelect = (item) => {
     setSelectedProf(item);
   };
@@ -58,10 +60,20 @@ const UsersList = () => {
     setSortBy(item);
   };
 
+  const searchUser = ({ target }) => {
+    console.log("target.value", target.value);
+    setSearchField(target.value); // устанавливаю в state значение input
+  };
+
   if (users) {
-    const filteredUsers = selectedProf
-      ? users.filter((user) => user.profession._id === selectedProf._id)
+    const filteredUsers = searchField
+      ? users.filter((user) =>
+          user.name.toLowerCase().includes(searchField.toLowerCase())
+        )
       : users;
+    // const filteredUsers = selectedProf
+    //   ? users.filter((user) => user.profession._id === selectedProf._id)
+    //   : users;
     const count = filteredUsers.length;
     const sortedUsers = _.orderBy(filteredUsers, [sortBy.path], [sortBy.order]);
     const userCrop = paginate(sortedUsers, currentPage, pageSize);
@@ -91,6 +103,7 @@ const UsersList = () => {
           )}
           <div className="d-flex flex-column">
             <SearchStatus length={count} />
+            <Search searchUser={searchUser} />
             {count !== 0 && (
               <UsersTable
                 userCrop={userCrop}
@@ -102,7 +115,7 @@ const UsersList = () => {
             )}
             <div className="d-flex justify-content-center">
               <Pagination
-                itemsCount={count} // длинна массива кол-во юзеров
+                itemsCount={count} // длинна массива c users
                 pageSize={pageSize}
                 handlePageChange={handlePageChange}
                 currentPage={currentPage}
