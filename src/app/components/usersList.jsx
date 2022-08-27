@@ -23,7 +23,7 @@ const UsersList = () => {
 
   useEffect(() => {
     api.users.fetchAll().then((data) => setUsers(data));
-  });
+  }, []);
 
   useEffect(() => {
     api.professions.fetchAll().then((data) => setProfessions(data));
@@ -75,14 +75,6 @@ const UsersList = () => {
       ? users.filter((user) => user.profession._id === selectedProf._id)
       : users;
 
-    // const filteredUsers = searchField
-    //   ? users.filter((user) =>
-    //       user.name.toLowerCase().includes(searchField.toLowerCase())
-    //     )
-    //   : users;
-    // const filteredUsers = selectedProf
-    //   ? users.filter((user) => user.profession._id === selectedProf._id)
-    //   : users;
     const count = filteredUsers.length;
     const sortedUsers = _.orderBy(filteredUsers, [sortBy.path], [sortBy.order]);
     const userCrop = paginate(sortedUsers, currentPage, pageSize);
