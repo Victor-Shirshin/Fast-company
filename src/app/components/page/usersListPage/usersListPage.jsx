@@ -1,17 +1,17 @@
 import React, { useState, useEffect } from "react";
 
-import api from "../api";
+import api from "../../../api";
 import _ from "lodash";
-import { paginate } from "../utils/paginate";
+import { paginate } from "../../../utils/paginate";
 
-import Pagination from "./pagination";
-import GroupList from "./groupList";
-import SearchStatus from "./searchStatus";
-import UsersTable from "./usersTable";
-import DynamicLoading from "./DynamicLoading";
-import Search from "./search";
+import Pagination from "../../common/pagination";
+import GroupList from "../../common/groupList";
+import SearchStatus from "../../ui/searchStatus";
+import UsersTable from "../../ui/usersTable";
+import DynamicLoading from "../../DynamicLoading";
+import SearchPanel from "../../searchPanel";
 
-const UsersList = () => {
+const UsersListPage = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [professions, setProfessions] = useState();
   const [selectedProf, setSelectedProf] = useState();
@@ -63,13 +63,16 @@ const UsersList = () => {
 
   const handleChangeSearch = ({ target }) => {
     setSearchField(target.value);
-    setSelectedProf();
+
+    if (searchField.length < 1) {
+      setSelectedProf();
+    }
   };
 
   if (users) {
     const filteredUsers = searchField
       ? users.filter((user) =>
-          user.name.toLowerCase().includes(searchField.toLowerCase())
+          user.name.toLowerCase().includes(searchField.trim().toLowerCase())
         )
       : selectedProf
       ? users.filter((user) => user.profession._id === selectedProf._id)
@@ -104,7 +107,7 @@ const UsersList = () => {
           )}
           <div className="d-flex flex-column">
             <SearchStatus length={count} />
-            <Search
+            <SearchPanel
               handleChangeSearch={handleChangeSearch}
               searchField={searchField}
             />
@@ -139,4 +142,4 @@ const UsersList = () => {
   );
 };
 
-export default UsersList;
+export default UsersListPage;
