@@ -5,9 +5,15 @@ import api from "../../api";
 import { validator } from "../../utils/validator";
 import TextField from "../common/form/textField";
 import SelectField from "../common/form/selectField";
+import RadioField from "../common/form/radioField";
 
 const RegisterForm = () => {
-  const [data, setData] = useState({ email: "", password: "", profession: "" });
+  const [data, setData] = useState({
+    email: "",
+    password: "",
+    profession: "",
+    sex: "male"
+  });
   const [professions, setProfessions] = useState();
   const [errors, setErrors] = useState({});
 
@@ -96,6 +102,16 @@ const RegisterForm = () => {
         defaultOptions="Choose..."
         value={data.profession}
         error={errors.profession}
+      />
+      <RadioField
+        options={[
+          { name: "Male", value: "male" },
+          { name: "Female", value: "female" },
+          { name: "Other", value: "other" }
+        ]}
+        value={data.sex}
+        name="sex"
+        onChange={handleChange}
       />
       <button
         className="btn btn-primary w-100 mx-auto"
