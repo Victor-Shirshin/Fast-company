@@ -14,7 +14,7 @@ module.exports = {
   plugins: ["react"],
   rules: {
     // error:  Expected indentation of 6 spaces but found 8   indent
-    "indent": [0, 2], // решение ошибки -> -> "indent": 0,
+    "indent": [0, 2], // старое решение ошибки было "indent": [0],
     // indent: ["error", 2], // это правило ошибку не устраняло
 
     semi: [2, "always"], // Точка с запятой в конце строки
@@ -28,5 +28,8 @@ module.exports = {
 
     // error: Newline required at end of file but not found. (eol-last) 
     "eol-last": 0, // решение ошибки
+
+    // Expected newline between test and consequent of ternary expression
+    "multiline-ternary": ["off"]
   }
 };
