@@ -17,7 +17,7 @@ const UsersListPage = () => {
   const [selectedProf, setSelectedProf] = useState();
   const [sortBy, setSortBy] = useState({ path: "name", order: "asc" });
   const [users, setUsers] = useState();
-  const [searchField, setSearchField] = useState("");
+  const [searchQuery, setSearchQuery] = useState("");
 
   const pageSize = 8; // сколько человек хотим отобразить на странице
 
@@ -31,7 +31,7 @@ const UsersListPage = () => {
 
   useEffect(() => {
     setCurrentPage(1);
-  }, [selectedProf]);
+  }, [selectedProf, searchQuery]);
 
   // удаление элемента при 'клике' на button
   const handleDelete = (userId) => {
@@ -50,7 +50,10 @@ const UsersListPage = () => {
 
   const handleProfessionSelect = (item) => {
     setSelectedProf(item);
-    setSearchField("");
+    // Условие чтобы избежать лишнего вызова setSearchQuery()
+    if (searchQuery !== "") {
+      setSearchQuery("");
+    }
   };
 
   const handlePageChange = (pageIndex) => {
@@ -61,18 +64,18 @@ const UsersListPage = () => {
     setSortBy(item);
   };
 
-  const handleChangeSearch = ({ target }) => {
-    setSearchField(target.value);
-
-    if (searchField.length < 1) {
-      setSelectedProf();
+  const handleSearchQuery = ({ target }) => {
+    setSearchQuery(target.value);
+    // Условие чтобы избежать лишнего вызова setSelectedProf()
+    if (searchQuery.length < 1) {
+      setSelectedProf(undefined);
     }
   };
 
   if (users) {
-    const filteredUsers = searchField
+    const filteredUsers = searchQuery
       ? users.filter((user) =>
-          user.name.toLowerCase().includes(searchField.trim().toLowerCase())
+          user.name.toLowerCase().includes(searchQuery.trim().toLowerCase())
         )
       : selectedProf
       ? users.filter((user) => user.profession._id === selectedProf._id)
@@ -87,7 +90,10 @@ const UsersListPage = () => {
       setCurrentPage((prevState) => prevState - 1);
     }
     const clearFilter = () => {
-      setSelectedProf();
+      // Условие чтобы избежать лишнего вызова setSelectedProf()
+      if (selectedProf !== undefined) {
+        setSelectedProf();
+      }
     };
 
     return (
@@ -108,8 +114,8 @@ const UsersListPage = () => {
           <div className="d-flex flex-column">
             <SearchStatus length={count} />
             <SearchPanel
-              handleChangeSearch={handleChangeSearch}
-              searchField={searchField}
+              handleSearchQuery={handleSearchQuery}
+              searchQuery={searchQuery}
             />
             {count !== 0 && (
               <UsersTable
