@@ -13,7 +13,7 @@ const UserPage = ({ userId }) => {
 
   useEffect(() => {
     api.users.getById(userId).then((user) => setUser(user));
-  }, [user]);
+  }, []); // оставили почему-то пустой?
 
   const returnPageBack = () => {
     history.replace("/users");
