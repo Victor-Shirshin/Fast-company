@@ -20,10 +20,7 @@ const SelectField = ({
 
   const optionsArray =
     !Array.isArray(options) && typeof options === "object"
-      ? Object.keys(options).map((optionName) => ({
-          name: options[optionName].name,
-          value: options[optionName]._id
-        }))
+      ? Object.values(options)
       : options;
 
   return (
@@ -41,10 +38,10 @@ const SelectField = ({
         <option disabled value="">
           {defaultOptions}
         </option>
-        {optionsArray &&
+        {optionsArray.length > 0 &&
           optionsArray.map((option) => (
-            <option value={option.value} key={option._id}>
-              {option.name}
+            <option value={option.value} key={option.value}>
+              {option.label}
             </option>
           ))}
       </select>

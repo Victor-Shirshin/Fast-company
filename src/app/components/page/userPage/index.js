@@ -1,4 +1,3 @@
-// Отвечает за импорты и экспорты компонентов из текущей папки либо за асинхронную загрузку части компонентов. Подробный разбор по асинхронной загрузке будет в части по сборке проекта.
-
 import UserPage from "./userPage";
-export default UserPage;
+import UserPageEditor from "./userPageEditor";
+export { UserPageEditor, UserPage };

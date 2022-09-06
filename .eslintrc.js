@@ -31,5 +31,9 @@ module.exports = {
 
     // Expected newline between test and consequent of ternary expression
     "multiline-ternary": ["off"]
+
+    // Unexpected 'debugger' statement  no-debugger
+    // "no-debugger": "off" не работает правило
+    // debugger; // eslint-disable-line no-debugger рабочее решение писать в react
   }
 };
