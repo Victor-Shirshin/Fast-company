@@ -1,12 +1,13 @@
 import React from "react";
 import PropTypes from "prop-types";
+import { Link } from "react-router-dom";
 
 import TableHeader from "../common/table/tableHeader.jsx";
 import TableBody from "../common/table/tableBody.jsx";
 import BookMark from "../common/bookmark";
 import Qualities from "../ui/qualities";
-import Table from "../common/table"; // можно вытащить из него ещё два компонента
-import { Link } from "react-router-dom";
+import Table from "../common/table"; // можно вытащить ещё два компонента
+import Profession from "./profession.jsx";
 
 const UserTable = ({
   userCrop,
@@ -25,7 +26,10 @@ const UserTable = ({
       name: "Качества",
       component: (user) => <Qualities qualities={user.qualities} />
     },
-    professions: { path: "profession.name", name: "Профессия" },
+    professions: {
+      name: "Профессия",
+      component: (user) => <Profession id={user.profession} />
+    },
     completedMeetings: {
       path: "completedMeetings",
       name: "Встретился, раз"

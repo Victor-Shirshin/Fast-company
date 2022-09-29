@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
+import _ from "lodash";
 
 import api from "../../../api";
-import _ from "lodash";
 import { paginate } from "../../../utils/paginate";
+import { useUser } from "../../hooks/useUsers";
 
 import Pagination from "../../common/pagination";
 import GroupList from "../../common/groupList";
@@ -16,14 +17,9 @@ const UsersListPage = () => {
   const [professions, setProfessions] = useState();
   const [selectedProf, setSelectedProf] = useState();
   const [sortBy, setSortBy] = useState({ path: "name", order: "asc" });
-  const [users, setUsers] = useState();
   const [searchQuery, setSearchQuery] = useState("");
-
-  const pageSize = 8; // сколько человек хотим отобразить на странице
-
-  useEffect(() => {
-    api.users.fetchAll().then((data) => setUsers(data));
-  }, []);
+  const pageSize = 8; // сколько хотим отобразить на странице
+  const { users } = useUser();
 
   useEffect(() => {
     api.professions.fetchAll().then((data) => setProfessions(data));
@@ -35,7 +31,8 @@ const UsersListPage = () => {
 
   // удаление элемента при 'клике' на button
   const handleDelete = (userId) => {
-    setUsers((prevState) => prevState.filter((user) => user._id !== userId));
+    // setUsers((prevState) => prevState.filter((user) => user._id !== userId));
+    console.log(userId);
   };
 
   const handleToggleBookMark = (id) => {
@@ -45,7 +42,8 @@ const UsersListPage = () => {
       }
       return user;
     });
-    setUsers(newArray);
+    // setUsers(newArray);
+    console.log(newArray);
   };
 
   const handleProfessionSelect = (item) => {
@@ -128,7 +126,7 @@ const UsersListPage = () => {
             )}
             <div className="d-flex justify-content-center">
               <Pagination
-                itemsCount={count} // длинна массива c users
+                itemsCount={count}
                 pageSize={pageSize}
                 handlePageChange={handlePageChange}
                 currentPage={currentPage}
