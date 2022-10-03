@@ -9,7 +9,6 @@ import TextField from "../../common/form/textField";
 import SelectField from "../../common/form/selectField";
 import RadioField from "../../common/form/radioField";
 import MultiSelectField from "../../common/form/multiSelectField";
-// import DynamicLoading from "../../DynamicLoading";
 
 const UserPageEditor = ({ userId }) => {
   const [data, setData] = useState({
@@ -26,46 +25,6 @@ const UserPageEditor = ({ userId }) => {
   const isValid = Object.keys(errors).length === 0;
   const history = useHistory();
 
-  console.log("professions", professions);
-  console.log("qualities", qualities);
-  console.log("data", data);
-
-  // // Мое решение useEffect()
-  // useEffect(() => {
-  //   setIsLoading(true);
-  //   api.users.getById(userId).then((user) =>
-  //     setData(() => ({
-  //       ...user,
-  //       profession: user.profession._id,
-  //       qualities: user.qualities.map((quality) => ({
-  //         label: quality.name,
-  //         value: quality._id,
-  //         color: quality.color
-  //       }))
-  //     }))
-  //   );
-  // }, []);
-  // // Мое решение useEffect()
-  // useEffect(() => {
-  //   api.professions.fetchAll().then((data) => {
-  //     const professionsList = Object.keys(data).map((professionName) => ({
-  //       label: data[professionName].name,
-  //       value: data[professionName]._id
-  //     }));
-  //     setProfessions(professionsList);
-  //   });
-  //   api.qualities.fetchAll().then((data) => {
-  //     const qualitiesList = transformData(data);
-  //     // const qualitiesList = Object.keys(data).map((optionName) => ({
-  //     //   label: data[optionName].name,
-  //     //   value: data[optionName]._id,
-  //     //   color: data[optionName].color
-  //     // }));
-  //     setQualities(qualitiesList);
-  //   });
-  // }, []);
-
-  // Решение Александра по useEffect()
   useEffect(() => {
     setIsLoading(true);
     api.users.getById(userId).then(({ profession, qualities, ...rest }) =>
@@ -90,12 +49,6 @@ const UserPageEditor = ({ userId }) => {
     if (data._id) setIsLoading(false);
   }, [data]);
 
-  // Решение Василия transformData()
-  // const transformData = (data) => {
-  //   return data.map((item) => ({ label: item.name, value: item._id }));
-  // };
-
-  // Решение Александра transformData()
   const transformData = (data) => {
     const arr = Array.isArray(data) ? data : Object.values(data);
     console.log("arr", arr);

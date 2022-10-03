@@ -1,11 +1,37 @@
 import axios from "axios";
 import { toast } from "react-toastify";
-import config from "../config.json";
+import configFile from "../config.json";
 
-axios.defaults.baseURL = config.apiEndpoint;
+// Преимущество выноса http.servece как отдельного компанента в том что открывается возможность трансформации данных и работа как сданными в виде объектов так и массивов при этом не меняя весь код написанный ранее.
+axios.defaults.baseURL = configFile.apiEndpoint;
+
+axios.interceptors.request.use(
+  function (config) {
+    if (configFile.isFireBase) {
+      const containSlash = /\/$/gi.test(config.url);
+      config.url = (containSlash ? config.url.slice(0, -1) : config.url) + ".json";
+    }
+    return config;
+  }, function (error) {
+    return Promise.reject(error);
+  }
+);
+
+function transformData(data) {
+  return data ? Object.keys(data).map(key => ({
+    ...data[key]
+  })) : [];
+};
 
 axios.interceptors.response.use(
-  (response) => response,
+  (response) => {
+    if (configFile.isFireBase) {
+      response.data = { content: transformData(response.data) };
+    };
+    console.log("response.data", response.data);
+    return response;
+  },
+
   function (error) {
     // отрабатываем неожидаемые ошибки >= 400 && < 500
     const expectedErrors =
