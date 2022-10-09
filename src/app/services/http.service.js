@@ -2,10 +2,14 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import configFile from "../config.json";
 
-// Преимущество выноса http.servece как отдельного компанента в том что открывается возможность трансформации данных и работа как сданными в виде объектов так и массивов при этом не меняя весь код написанный ранее.
-axios.defaults.baseURL = configFile.apiEndpoint;
+// Памятка. Преимущество выноса http.servece как отдельного компонента в том что открывается возможность трансформации данных и работа как сданными в виде объектов так и массивов при этом не правя весь код.
+// axios.defaults.baseURL = configFile.apiEndpoint;
 
-axios.interceptors.request.use(
+const http = axios.create({
+  baseURL: configFile.apiEndpoint
+});
+
+http.interceptors.request.use(
   function (config) {
     if (configFile.isFireBase) {
       const containSlash = /\/$/gi.test(config.url);
@@ -23,12 +27,11 @@ function transformData(data) {
   })) : [];
 };
 
-axios.interceptors.response.use(
+http.interceptors.response.use(
   (response) => {
     if (configFile.isFireBase) {
       response.data = { content: transformData(response.data) };
     };
-    console.log("response.data", response.data);
     return response;
   },
 
@@ -40,7 +43,6 @@ axios.interceptors.response.use(
       error.response.status < 500;
 
     if (!expectedErrors) {
-      console.log(error);
       toast.error("Something was wrong. Try it later");
     }
     // чтобы работа promise продолжилась
@@ -49,10 +51,10 @@ axios.interceptors.response.use(
 );
 
 const httpService = {
-  get: axios.get,
-  post: axios.post,
-  put: axios.put,
-  delete: axios.delete
+  get: http.get,
+  post: http.post,
+  put: http.put,
+  delete: http.delete
 };
 
 export default httpService;

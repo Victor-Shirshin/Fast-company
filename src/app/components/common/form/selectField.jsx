@@ -10,6 +10,7 @@ const SelectField = ({
   name,
   error
 }) => {
+  // console.log("options in SelectField", options);
   const handleChange = ({ target }) => {
     onChange({ name: target.name, value: target.value });
   };
@@ -20,7 +21,10 @@ const SelectField = ({
 
   const optionsArray =
     !Array.isArray(options) && typeof options === "object"
-      ? Object.values(options)
+      ? Object.keys(options).map((item) => ({
+          name: options[item].name,
+          value: options[item]._id
+        }))
       : options;
 
   return (
@@ -49,6 +53,7 @@ const SelectField = ({
     </div>
   );
 };
+
 SelectField.propTypes = {
   defaultOptions: PropTypes.string,
   name: PropTypes.string,

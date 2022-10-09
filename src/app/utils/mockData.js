@@ -18,7 +18,6 @@ const useMockData = () => {
   const summaryCount = professions.length + qualities.length + users.length;
 
   const incrementCount = () => {
-    debugger; // eslint-disable-line no-debugger
     setCount((prevState) => prevState + 1);
   };
 

@@ -8,21 +8,24 @@ import Main from "./layout/main.jsx";
 import Login from "./layout/login.jsx";
 import { ProfessionProvider } from "./components/hooks/useProfession.jsx";
 import { QualitiesProvider } from "./components/hooks/useQualities.jsx";
+import AuthProvider from "./components/hooks/useAuth.jsx";
 
 function App() {
   return (
     <>
-      <NavBar />
-      <ProfessionProvider>
-        <QualitiesProvider>
-          <Switch>
-            <Route path="/users/:userId?/:edit?" component={Users} />
-            <Route path="/login/:type?" component={Login} />
-            <Route path="/" exact component={Main} />
-            <Redirect to="/" />
-          </Switch>
-        </QualitiesProvider>
-      </ProfessionProvider>
+      <AuthProvider>
+        <NavBar />
+        <ProfessionProvider>
+          <QualitiesProvider>
+            <Switch>
+              <Route path="/users/:userId?/:edit?" component={Users} />
+              <Route path="/login/:type?" component={Login} />
+              <Route path="/" exact component={Main} />
+              <Redirect to="/" />
+            </Switch>
+          </QualitiesProvider>
+        </ProfessionProvider>
+      </AuthProvider>
 
       <ToastContainer />
     </>

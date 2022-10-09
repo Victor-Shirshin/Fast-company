@@ -1,14 +1,16 @@
 import React, { useState, useEffect } from "react";
-
-// import * as yup from "yup";
+import { useHistory } from "react-router-dom";
 
 import { validator } from "../../utils/validator";
 import TextField from "../common/form/textField";
 import CheckBoxField from "../common/form/checkBoxField";
+import { useAuth } from "../hooks/useAuth";
 
 const loginForm = () => {
   const [data, setData] = useState({ email: "", password: "", stayOn: false });
   const [errors, setErrors] = useState({});
+  const history = useHistory();
+  const { login } = useAuth();
 
   const handleChange = (target) => {
     setData((prevState) => ({
@@ -16,26 +18,6 @@ const loginForm = () => {
       [target.name]: target.value
     }));
   };
-
-  // const validateScheme = yup.object().shape({
-  //   password: yup
-  //     .string()
-  //     .required("Поле password обязательно для заполнения")
-  //     .matches(
-  //       /(?=.*[A-Z])/,
-  //       "Пароль должнен содержать хотя бы одну заглавную букву"
-  //     )
-  //     .matches(/(?=.*[0-9])/, "Пароль должнен содержать хотя бы одно число")
-  //     .matches(
-  //       /(?=.*[!@#$%^&*])/,
-  //       "Пароль должен содержать один из специальных символов !@#$%^&*"
-  //     )
-  //     .matches(/(?=.{8,})/, "Пароль должнен состоять минимум из 8 символов"),
-  //   email: yup
-  //     .string()
-  //     .required("Поле email обязательно для заполнения")
-  //     .email("Email введён не корректно")
-  // });
 
   const validatorConfig = {
     email: {
@@ -69,21 +51,24 @@ const loginForm = () => {
 
   const validate = () => {
     const errors = validator(data, validatorConfig);
-    // validateScheme
-    //   .validate(data)
-    //   .then(() => setErrors({}))
-    //   .catch((err) => setErrors({ [err.path]: err.message }));
     setErrors(errors);
     return Object.keys(errors).length === 0;
   };
 
   const isValid = Object.keys(errors).length === 0;
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const isValid = validate();
     if (!isValid) return;
-    console.log("dataLogin.jsx", data);
+
+    try {
+      await login(data);
+      setData({ email: "", password: "", stayOn: false });
+      history.push("/");
+    } catch (error) {
+      setErrors(error);
+    }
   };
 
   return (
