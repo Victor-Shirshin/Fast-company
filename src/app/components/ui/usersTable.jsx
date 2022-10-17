@@ -11,7 +11,6 @@ import Profession from "./profession.jsx";
 
 const UserTable = ({
   userCrop,
-  handleDelete,
   handleToggleBookMark,
   selectedSort,
   onSort
@@ -44,16 +43,6 @@ const UserTable = ({
           onClick={() => handleToggleBookMark(userCrop._id)}
         />
       )
-    },
-    delete: {
-      component: (userCrop) => (
-        <button
-          className="btn btn-danger btn-sm"
-          onClick={() => handleDelete(userCrop._id)}
-        >
-          delete
-        </button>
-      )
     }
   };
 
@@ -78,7 +67,7 @@ const UserTable = ({
 
 UserTable.propTypes = {
   userCrop: PropTypes.array.isRequired,
-  handleDelete: PropTypes.func.isRequired,
+  // handleDelete: PropTypes.func.isRequired,
   handleToggleBookMark: PropTypes.func.isRequired,
   selectedSort: PropTypes.object.isRequired,
   onSort: PropTypes.func.isRequired

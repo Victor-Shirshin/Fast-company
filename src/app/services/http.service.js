@@ -1,8 +1,11 @@
 import axios from "axios";
 import { toast } from "react-toastify";
-import configFile from "../config.json";
 
-// Памятка. Преимущество выноса http.servece как отдельного компонента в том что открывается возможность трансформации данных и работа как сданными в виде объектов так и массивов при этом не правя весь код.
+import { httpAuth } from "../components/hooks/useAuth";
+import configFile from "../config.json";
+import localStorageService from "./localStorage.service";
+
+// Памятка. Переиспользуемый паттерн http.service.js вынесли чтобы не писать эту логику в каждом компоненте. И преимущество выноса http.servece как отдельного компонента в том что открывается возможность трансформации данных и работа как с данными в виде объектов так и массивов при этом не правя весь код проекте.
 // axios.defaults.baseURL = configFile.apiEndpoint;
 
 const http = axios.create({
@@ -10,10 +13,26 @@ const http = axios.create({
 });
 
 http.interceptors.request.use(
-  function (config) {
+  async function (config) {
     if (configFile.isFireBase) {
       const containSlash = /\/$/gi.test(config.url);
       config.url = (containSlash ? config.url.slice(0, -1) : config.url) + ".json";
+      const expiresDate = localStorageService.getTokenExpiresDate();
+      const refreshToken = localStorageService.getRefreshToken();
+      if (refreshToken && expiresDate < Date.now()) {
+        const data = await httpAuth.post("token", {
+          grant_type: "refresh_token",
+          refresh_token: refreshToken
+        });
+        // console.log("data in http.service.js", data);
+        localStorageService.setTokens({
+          refreshToken: data.refresh_token, idToken: data.id_token, expiresIn: data.experes_in, localId: data.user_id
+        });
+      }
+      const accessToken = localStorageService.getAccessToken();
+      if (accessToken) {
+        config.params = { ...config.params, auth: accessToken };
+      }
     }
     return config;
   }, function (error) {
@@ -22,9 +41,9 @@ http.interceptors.request.use(
 );
 
 function transformData(data) {
-  return data ? Object.keys(data).map(key => ({
+  return data && !data._id ? Object.keys(data).map(key => ({
     ...data[key]
-  })) : [];
+  })) : data;
 };
 
 http.interceptors.response.use(
@@ -36,6 +55,8 @@ http.interceptors.response.use(
   },
 
   function (error) {
+    // interceptors он всегда срабатывает до основного запроса
+    // поэтому этот erorr отработает первым
     // отрабатываем неожидаемые ошибки >= 400 && < 500
     const expectedErrors =
       error.response &&

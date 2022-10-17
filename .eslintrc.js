@@ -23,8 +23,8 @@ module.exports = {
     // "space-before-function-paren": ["error", "never"], // переписано
     "space-before-function-paren": ["error", { anonymous: "always", named: "never" }],
 
-    // Использование двойных кавычек
-    quotes: ["error", "double", { allowTemplateLiterals: true }],
+    // Использование двойных кавычек. (avoidEscape: true) чтобы не ругался на двойные кавычки в comment.service.jsx.
+    quotes: ["error", "double", { allowTemplateLiterals: true, avoidEscape: true }],
 
     // error: Newline required at end of file but not found. (eol-last) 
     "eol-last": 0, // решение ошибки

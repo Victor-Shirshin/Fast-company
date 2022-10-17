@@ -1,31 +1,20 @@
 // Это родительский компонент для комментариев он не от кого не зависит запрашивает данные и содержит в себе состояние.
-import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import React from "react";
 import { orderBy } from "lodash";
-
-import API from "../../api";
 
 import CommentsList from "../common/comments/commentList";
 import AddCommentForm from "../common/comments/addCommentForm";
+import { useComments } from "../hooks/useComments";
 
 const Comments = () => {
-  const [comments, setComments] = useState([]);
-  const { userId } = useParams();
-
-  useEffect(() => {
-    API.comments.fetchCommentsForUser(userId).then((data) => setComments(data));
-  }, []);
+  const { createComment, comments, removeComment } = useComments();
 
   const handleRemoveComment = (id) => {
-    API.comments.remove(id).then((id) => {
-      setComments(comments.filter((item) => item._id !== id));
-    });
+    removeComment(id);
   };
 
   const handleSubmit = (data) => {
-    API.comments
-      .add({ ...data, pageId: userId })
-      .then((data) => setComments([...comments, data]));
+    createComment(data);
   };
 
   const sortedComments = orderBy(comments, ["created_at"], ["desc"]);

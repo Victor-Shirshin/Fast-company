@@ -64,8 +64,9 @@ const loginForm = () => {
 
     try {
       await login(data);
-      setData({ email: "", password: "", stayOn: false });
-      history.push("/");
+      history.push(
+        history.location.state ? history.location.state.from.pathname : "/"
+      );
     } catch (error) {
       setErrors(error);
     }
