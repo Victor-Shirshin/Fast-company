@@ -5,8 +5,8 @@ import { useQualities } from "../../hooks/useQualities.jsx";
 import Qualitie from "./qualitie.jsx";
 
 const QualitiesList = ({ qualities }) => {
-  const { getQualities, isLoading } = useQualities();
-  const qualitiesArray = qualities.map((item) => getQualities(item));
+  const { getQualitiesById, isLoading } = useQualities();
+  const qualitiesArray = qualities.map((item) => getQualitiesById(item));
 
   return (
     <>

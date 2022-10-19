@@ -26,7 +26,7 @@ export const QualitiesProvider = ({ children }) => {
     }
   }, [error]);
 
-  function getQualities(id) {
+  function getQualitiesById(id) {
     return qualities.find((item) => item._id === id);
   }
 
@@ -46,7 +46,9 @@ export const QualitiesProvider = ({ children }) => {
   }
 
   return (
-    <QualitiesContext.Provider value={{ isLoading, qualities, getQualities }}>
+    <QualitiesContext.Provider
+      value={{ isLoading, qualities, getQualitiesById }}
+    >
       {children}
     </QualitiesContext.Provider>
   );

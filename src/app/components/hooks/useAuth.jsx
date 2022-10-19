@@ -23,14 +23,14 @@ export const useAuth = () => {
 };
 
 const AuthProvider = ({ children }) => {
-  const [currentUser, setUser] = useState();
+  const [currentUser, setCurrentUser] = useState();
   const [error, setError] = useState(null);
   const [isLoading, setLoading] = useState(true);
   const history = useHistory();
 
   function logOut() {
     localStorageService.removeAuthData();
-    setUser(null);
+    setCurrentUser(null);
     history.push("/");
   }
 
@@ -104,8 +104,8 @@ const AuthProvider = ({ children }) => {
   async function createUser(data) {
     try {
       const { content } = await userService.create(data);
-      console.log("content in createUser", content);
-      setUser(content);
+      // console.log("content in createUser", content);
+      setCurrentUser(content);
     } catch (error) {
       errorCatcher(error);
     }
@@ -114,7 +114,7 @@ const AuthProvider = ({ children }) => {
   async function getUserData() {
     try {
       const { content } = await userService.getCurrentUser();
-      setUser(content);
+      setCurrentUser(content);
     } catch (error) {
       errorCatcher(error);
     } finally {
@@ -143,7 +143,9 @@ const AuthProvider = ({ children }) => {
   }
 
   return (
-    <AuthContext.Provider value={{ signUp, login, currentUser, logOut }}>
+    <AuthContext.Provider
+      value={{ signUp, login, currentUser, logOut, createUser }}
+    >
       {!isLoading ? children : "Loading..."}
     </AuthContext.Provider>
   );

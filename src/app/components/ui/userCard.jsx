@@ -29,7 +29,7 @@ const UserCard = ({ user }) => {
           <img src={user.image} className="rounded-circle" width="150" />
           <div className="mt-3">
             <h4>{user.name}</h4>
-            <p className="text-secondary mb-1">{userProf.name}</p>
+            {userProf && <p className="text-secondary mb-1">{userProf.name}</p>}
             <div className="text-muted">
               <i
                 className="bi bi-caret-down-fill text-primary"
