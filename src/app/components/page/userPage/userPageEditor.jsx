@@ -14,48 +14,42 @@ import { useAuth } from "../../hooks/useAuth";
 import { useQualities } from "../../hooks/useQualities";
 
 const UserPageEditor = () => {
-  const [data, setData] = useState({
-    name: "",
-    email: "",
-    profession: "",
-    qualities: [],
-    sex: "male"
-  });
-  const [professionsEdit, setProfessions] = useState([]);
-  const [qualitiesEdit, setQualities] = useState([]);
+  const [data, setData] = useState();
   const [errors, setErrors] = useState({});
   const [isLoading, setIsLoading] = useState(true);
 
-  const { professions } = useProfessions();
+  const { professions, isLoading: professionLoading } = useProfessions();
+  const professionsList = professions.map((pofession) => ({
+    label: pofession.name,
+    value: pofession._id
+  }));
   const { currentUser, createUser } = useAuth();
-  const { qualities, getQualitiesById } = useQualities();
-
+  const {
+    qualities,
+    getQualitiesById,
+    isLoading: qualitiesLoading
+  } = useQualities();
+  const qualitiesList = qualities.map((quality) => ({
+    value: quality._id,
+    label: quality.name,
+    color: quality.color
+  }));
   const isValid = Object.keys(errors).length === 0;
   const history = useHistory();
 
   useEffect(() => {
-    const professionsList = professions.map((pofession) => ({
-      label: pofession.name,
-      value: pofession._id
-    }));
-    setProfessions(professionsList);
-
-    const qualitiesList = qualities.map((quality) => ({
-      value: quality._id,
-      label: quality.name,
-      color: quality.color
-    }));
-    setQualities(qualitiesList);
-
-    setData((prevState) => ({
-      ...prevState,
-      ...currentUser,
-      qualities: transformQualityData(currentUser.qualities)
-    }));
-  }, []);
+    if (!professionLoading && !qualitiesLoading && currentUser && !data) {
+      setData({
+        ...currentUser,
+        qualities: transformQualityData(currentUser.qualities)
+      });
+    }
+  }, [professionLoading, qualitiesLoading, currentUser, data]);
 
   useEffect(() => {
-    if (data._id) setIsLoading(false);
+    if (data && isLoading) {
+      setIsLoading(false);
+    }
   }, [data]);
 
   const transformQualityData = (data) => {
@@ -152,7 +146,7 @@ const UserPageEditor = () => {
                 <SelectField
                   label="Выбери свою профессию"
                   onChange={handleChange}
-                  options={professionsEdit}
+                  options={professionsList}
                   defaultOptions="Choose..."
                   name="profession"
                   value={data.profession}
@@ -170,7 +164,7 @@ const UserPageEditor = () => {
                   label="Выберите ваш пол"
                 />
                 <MultiSelectField
-                  options={qualitiesEdit}
+                  options={qualitiesList}
                   onChange={handleChange}
                   defaultValue={data.qualities}
                   name="qualities"
