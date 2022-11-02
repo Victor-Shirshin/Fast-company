@@ -9,26 +9,25 @@ import SelectField from "../../common/form/selectField";
 import RadioField from "../../common/form/radioField";
 import MultiSelectField from "../../common/form/multiSelectField";
 import BackHistoryButton from "../../common/backHistoryButton";
-import { useProfessions } from "../../hooks/useProfession";
 import { useAuth } from "../../hooks/useAuth";
-import { useQualities } from "../../hooks/useQualities";
+import { useSelector } from "react-redux";
+import { getQualities, getQualitiesStatus } from "../../../store/qualities";
+import { getProfessions } from "../../../store/professions";
 
 const UserPageEditor = () => {
   const [data, setData] = useState();
   const [errors, setErrors] = useState({});
   const [isLoading, setIsLoading] = useState(true);
 
-  const { professions, isLoading: professionLoading } = useProfessions();
+  const professionLoading = useSelector(getQualitiesStatus());
+  const professions = useSelector(getProfessions());
   const professionsList = professions.map((pofession) => ({
     label: pofession.name,
     value: pofession._id
   }));
   const { currentUser, createUser } = useAuth();
-  const {
-    qualities,
-    getQualitiesById,
-    isLoading: qualitiesLoading
-  } = useQualities();
+  const qualities = useSelector(getQualities());
+  const qualitiesLoading = useSelector(getQualitiesStatus());
   const qualitiesList = qualities.map((quality) => ({
     value: quality._id,
     label: quality.name,
@@ -41,7 +40,7 @@ const UserPageEditor = () => {
     if (!professionLoading && !qualitiesLoading && currentUser && !data) {
       setData({
         ...currentUser,
-        qualities: transformQualityData(currentUser.qualities)
+        qualities: transformData(currentUser.qualities)
       });
     }
   }, [professionLoading, qualitiesLoading, currentUser, data]);
@@ -52,18 +51,29 @@ const UserPageEditor = () => {
     }
   }, [data]);
 
-  const transformQualityData = (data) => {
+  useEffect(() => {
+    validate();
+  }, [data]);
+
+  function getQualitiesListById(qualitiesId) {
     const qualitiesArray = [];
-    for (const id of data) {
-      const quality = [getQualitiesById(id)];
-      const qualityTransform = quality.map((quality) => ({
-        value: quality._id,
-        label: quality.name,
-        color: quality.color
-      }));
-      qualitiesArray.push(...qualityTransform);
+    for (const qualId of qualitiesId) {
+      for (const quality of qualities) {
+        if (quality._id === qualId) {
+          qualitiesArray.push(quality);
+          break;
+        }
+      }
     }
     return qualitiesArray;
+  }
+
+  const transformData = (data) => {
+    const result = getQualitiesListById(data).map((qual) => ({
+      label: qual.name,
+      value: qual._id
+    }));
+    return result;
   };
 
   const handleChange = (target) => {
@@ -93,10 +103,6 @@ const UserPageEditor = () => {
       }
     }
   };
-
-  useEffect(() => {
-    validate();
-  }, [data]);
 
   const validate = () => {
     const errors = validator(data, validatorConfig);

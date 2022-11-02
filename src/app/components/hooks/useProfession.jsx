@@ -26,7 +26,7 @@ export const ProfessionProvider = ({ children }) => {
     }
   }, []);
 
-  function getProfession(id) {
+  function getProfessionById(id) {
     return professions.find((item) => item._id === id);
   }
 
@@ -47,7 +47,7 @@ export const ProfessionProvider = ({ children }) => {
 
   return (
     <ProfessionContext.Provider
-      value={{ isLoading, professions, getProfession }}
+      value={{ isLoading, professions, getProfessionById }}
     >
       {children}
     </ProfessionContext.Provider>

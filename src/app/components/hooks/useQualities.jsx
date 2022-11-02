@@ -45,6 +45,8 @@ export const QualitiesProvider = ({ children }) => {
     setError(message);
   }
 
+  console.log("qualities in useQualites", qualities);
+
   return (
     <QualitiesContext.Provider
       value={{ isLoading, qualities, getQualitiesById }}
