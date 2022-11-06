@@ -9,7 +9,7 @@ export const useQualities = () => {
   return useContext(QualitiesContext);
 };
 
-// Почему нельзя экспортировать HOC по default ?
+// нельзя экспортировать HOC по default
 export const QualitiesProvider = ({ children }) => {
   const [isLoading, setLoading] = useState(true);
   const [qualities, setQualities] = useState([]);
@@ -44,8 +44,6 @@ export const QualitiesProvider = ({ children }) => {
     const { message } = error.response.data;
     setError(message);
   }
-
-  console.log("qualities in useQualites", qualities);
 
   return (
     <QualitiesContext.Provider

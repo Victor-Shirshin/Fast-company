@@ -9,23 +9,29 @@ import SelectField from "../../common/form/selectField";
 import RadioField from "../../common/form/radioField";
 import MultiSelectField from "../../common/form/multiSelectField";
 import BackHistoryButton from "../../common/backHistoryButton";
-import { useAuth } from "../../hooks/useAuth";
-import { useSelector } from "react-redux";
+// import { useAuth } from "../../hooks/useAuth";
+import { useDispatch, useSelector } from "react-redux";
 import { getQualities, getQualitiesStatus } from "../../../store/qualities";
-import { getProfessions } from "../../../store/professions";
+import {
+  getProfessions,
+  getProfessionsLoadingStatus
+} from "../../../store/professions";
+import { getCurrentUserData, updateUserData } from "../../../store/users";
 
 const UserPageEditor = () => {
   const [data, setData] = useState();
   const [errors, setErrors] = useState({});
   const [isLoading, setIsLoading] = useState(true);
 
-  const professionLoading = useSelector(getQualitiesStatus());
+  const professionLoading = useSelector(getProfessionsLoadingStatus());
   const professions = useSelector(getProfessions());
   const professionsList = professions.map((pofession) => ({
     label: pofession.name,
     value: pofession._id
   }));
-  const { currentUser, createUser } = useAuth();
+  // const { updateUserData } = useAuth();
+  const dispatch = useDispatch();
+  const currentUser = useSelector(getCurrentUserData());
   const qualities = useSelector(getQualities());
   const qualitiesLoading = useSelector(getQualitiesStatus());
   const qualitiesList = qualities.map((quality) => ({
@@ -35,6 +41,14 @@ const UserPageEditor = () => {
   }));
   const isValid = Object.keys(errors).length === 0;
   const history = useHistory();
+
+  const transformData = (data) => {
+    const result = getQualitiesListById(data).map((qual) => ({
+      label: qual.name,
+      value: qual._id
+    }));
+    return result;
+  };
 
   useEffect(() => {
     if (!professionLoading && !qualitiesLoading && currentUser && !data) {
@@ -67,14 +81,6 @@ const UserPageEditor = () => {
     }
     return qualitiesArray;
   }
-
-  const transformData = (data) => {
-    const result = getQualitiesListById(data).map((qual) => ({
-      label: qual.name,
-      value: qual._id
-    }));
-    return result;
-  };
 
   const handleChange = (target) => {
     setData((prevState) => ({
@@ -110,21 +116,18 @@ const UserPageEditor = () => {
     return Object.keys(errors).length === 0;
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     const isValid = validate();
     if (!isValid) return;
+
     const userEdit = {
       ...data,
       qualities: data.qualities.map((item) => item.value)
     };
 
-    try {
-      await createUser(userEdit);
-      history.push(`/users/${currentUser._id}`);
-    } catch (error) {
-      setErrors(error);
-    }
+    dispatch(updateUserData(userEdit));
+    history.push(`/users/${currentUser._id}`);
   };
 
   return (

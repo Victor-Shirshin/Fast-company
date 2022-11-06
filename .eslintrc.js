@@ -14,8 +14,9 @@ module.exports = {
   plugins: ["react"],
   rules: {
     // error:  Expected indentation of 6 spaces but found 8   indent
-    "indent": [0, 2], // старое решение ошибки было "indent": [0],
+    // "indent": [0] старое решение ошибки 
     // indent: ["error", 2], // это правило ошибку не устраняло
+    "indent": [0, 2], // новое решение ошибки
 
     semi: [2, "always"], // Точка с запятой в конце строки
 

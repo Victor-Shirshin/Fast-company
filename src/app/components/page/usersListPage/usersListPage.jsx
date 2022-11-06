@@ -8,12 +8,12 @@ import GroupList from "../../common/groupList";
 import SearchStatus from "../../ui/searchStatus";
 import UsersTable from "../../ui/usersTable";
 import SearchPanel from "../../searchPanel";
-import { useAuth } from "../../hooks/useAuth";
-import { useUser } from "../../hooks/useUsers";
+// import { useAuth } from "../../hooks/useAuth";
 import {
   getProfessions,
-  getProfessionsStatus
+  getProfessionsLoadingStatus
 } from "../../../store/professions";
+import { getCurrentUserId, getUsersList } from "../../../store/users";
 
 const UsersListPage = () => {
   const [currentPage, setCurrentPage] = useState(1);
@@ -21,10 +21,11 @@ const UsersListPage = () => {
   const [sortBy, setSortBy] = useState({ path: "name", order: "asc" });
   const [searchQuery, setSearchQuery] = useState("");
   const pageSize = 8;
-  const { users } = useUser();
-  const { professions } = useSelector(getProfessions());
-  const { professionsLoading } = useSelector(getProfessionsStatus());
-  const { currentUser } = useAuth();
+  const users = useSelector(getUsersList());
+  const professions = useSelector(getProfessions());
+  const { professionsLoading } = useSelector(getProfessionsLoadingStatus());
+  // const { currentUser } = useAuth();
+  const currentUserId = useSelector(getCurrentUserId());
 
   useEffect(() => {
     setCurrentPage(1);
@@ -44,7 +45,7 @@ const UsersListPage = () => {
       return user;
     });
     // setUsers(newArray);
-    console.log(newArray);
+    console.log("newArray in userListPage", newArray);
   };
 
   const handleProfessionSelect = (item) => {
@@ -79,7 +80,7 @@ const UsersListPage = () => {
       : selectedProf
       ? data.filter((user) => user.profession._id === selectedProf._id)
       : data;
-    return filteredUsers.filter((user) => user._id !== currentUser._id);
+    return filteredUsers.filter((user) => user._id !== currentUserId._id);
   }
 
   const filteredUsers = filterUsers(users);

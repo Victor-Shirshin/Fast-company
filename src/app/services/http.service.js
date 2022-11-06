@@ -1,8 +1,9 @@
 import axios from "axios";
 import { toast } from "react-toastify";
 
-import { httpAuth } from "../components/hooks/useAuth";
+// import { httpAuth } from "../components/hooks/useAuth";
 import configFile from "../config.json";
+import authService from "./auth.service";
 import localStorageService from "./localStorage.service";
 
 // Памятка. Переиспользуемый паттерн http.service.js вынесли чтобы не писать эту логику в каждом компоненте. И преимущество выноса http.servece как отдельного компонента в том что открывается возможность трансформации данных и работа как с данными в виде объектов так и массивов при этом не правя весь код проекте.
@@ -20,11 +21,7 @@ http.interceptors.request.use(
       const expiresDate = localStorageService.getTokenExpiresDate();
       const refreshToken = localStorageService.getRefreshToken();
       if (refreshToken && expiresDate < Date.now()) {
-        const data = await httpAuth.post("token", {
-          grant_type: "refresh_token",
-          refresh_token: refreshToken
-        });
-        // console.log("data in http.service.js", data);
+        const data = await authService.refresh();
         localStorageService.setTokens({
           refreshToken: data.refresh_token, idToken: data.id_token, expiresIn: data.experes_in, localId: data.user_id
         });

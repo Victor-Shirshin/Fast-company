@@ -46,7 +46,7 @@ const AuthProvider = ({ children }) => {
         returnSecureToken: true
       });
       setTokens(data);
-      await createUser({
+      await updateUserData({
         _id: data.localId,
         email,
         rate: randomInt(1, 5),
@@ -70,8 +70,6 @@ const AuthProvider = ({ children }) => {
     }
   }
 
-  // email: Jony7351@tw.com, password: b2C!9bmi
-  // email: aaa@aaa.com, password: 1234A123
   async function login({ email, password }) {
     try {
       const { data } = await httpAuth.post(`accounts:signInWithPassword`, {
@@ -101,10 +99,9 @@ const AuthProvider = ({ children }) => {
     }
   }
 
-  async function createUser(data) {
+  async function updateUserData(data) {
     try {
       const { content } = await userService.update(data);
-      // console.log("content in createUser", content);
       setCurrentUser(content);
     } catch (error) {
       errorCatcher(error);
@@ -144,7 +141,7 @@ const AuthProvider = ({ children }) => {
 
   return (
     <AuthContext.Provider
-      value={{ signUp, login, currentUser, logOut, createUser }}
+      value={{ signUp, login, currentUser, logOut, updateUserData }}
     >
       {!isLoading ? children : "Loading..."}
     </AuthContext.Provider>
