@@ -10,7 +10,7 @@ import LogOut from "./layout/logOut.jsx";
 import NavBar from "./components/ui/navBar.jsx";
 // import { ProfessionProvider } from "./components/hooks/useProfession.jsx";
 // import { QualitiesProvider } from "./components/hooks/useQualities.jsx";
-import AuthProvider from "./components/hooks/useAuth.jsx";
+// import AuthProvider from "./components/hooks/useAuth.jsx";
 import ProtectedRoute from "./components/common/protectedRoute.jsx";
 import AppLoader from "./components/ui/hoc/appLoader.jsx";
 // import { loadQualitiesList } from "./store/qualities.js";
@@ -29,20 +29,20 @@ function App() {
   return (
     <>
       <AppLoader>
-        <AuthProvider>
-          <NavBar />
-          {/* <ProfessionProvider> */}
-          {/* <QualitiesProvider> */}
-          <Switch>
-            <ProtectedRoute path="/users/:userId?/:edit?" component={Users} />
-            <Route path="/login/:type?" component={Login} />
-            <Route path="/logout" component={LogOut} />
-            <Route path="/" exact component={Main} />
-            <Redirect to="/" />
-          </Switch>
-          {/* </QualitiesProvider> */}
-          {/* </ProfessionProvider> */}
-        </AuthProvider>
+        {/* <AuthProvider> */}
+        <NavBar />
+        {/* <ProfessionProvider> */}
+        {/* <QualitiesProvider> */}
+        <Switch>
+          <ProtectedRoute path="/users/:userId?/:edit?" component={Users} />
+          <Route path="/login/:type?" component={Login} />
+          <Route path="/logout" component={LogOut} />
+          <Route path="/" exact component={Main} />
+          <Redirect to="/" />
+        </Switch>
+        {/* </QualitiesProvider> */}
+        {/* </ProfessionProvider> */}
+        {/* </AuthProvider> */}
       </AppLoader>
 
       <ToastContainer />

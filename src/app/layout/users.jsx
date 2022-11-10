@@ -5,7 +5,7 @@ import { useSelector } from "react-redux";
 import UserPage from "../components/page/userPage/userPage";
 import UsersListPage from "../components/page/usersListPage/usersListPage";
 import UserPageEditor from "../components/page/userPage/userPageEditor";
-import UserProvider from "../components/hooks/useUsers";
+// import UserProvider from "../components/hooks/useUsers";
 // import { useAuth } from "../components/hooks/useAuth";
 import UsersLoader from "../components/ui/hoc/usersLoader";
 import { getCurrentUserId } from "../store/users";
@@ -28,21 +28,21 @@ const Users = () => {
   return (
     <>
       <UsersLoader>
-        <UserProvider>
-          {userId ? (
-            edit ? (
-              userId === currentUserId ? (
-                <UserPageEditor />
-              ) : (
-                <Redirect to={`/users/${currentUserId}/edit`} />
-              )
+        {/* <UserProvider> */}
+        {userId ? (
+          edit ? (
+            userId === currentUserId ? (
+              <UserPageEditor />
             ) : (
-              <UserPage userId={userId} />
+              <Redirect to={`/users/${currentUserId}/edit`} />
             )
           ) : (
-            <UsersListPage />
-          )}
-        </UserProvider>
+            <UserPage userId={userId} />
+          )
+        ) : (
+          <UsersListPage />
+        )}
+        {/* </UserProvider> */}
       </UsersLoader>
     </>
   );
