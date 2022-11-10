@@ -1,8 +1,9 @@
 import React, { useEffect } from "react";
 // import { useAuth } from "../components/hooks/useAuth";
 import { useDispatch } from "react-redux";
+import { logOut } from "../store/users";
 
-const logOut = () => {
+const LogOut = () => {
   // const { logOut } = useAuth();
   const dispatch = useDispatch();
 
@@ -13,4 +14,4 @@ const logOut = () => {
   return <h1>loading...</h1>;
 };
 
-export default logOut;
+export default LogOut;

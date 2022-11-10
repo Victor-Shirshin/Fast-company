@@ -3,6 +3,7 @@ import authService from "../services/auth.service";
 import localStorageService from "../services/localStorage.service";
 import userService from "../services/user.service";
 import getRandomInt from "../utils/getRandomInt";
+import { generateAuthError } from "../utils/generateAuthError";
 import history from "../utils/history";
 
 const initialState = localStorageService.getAccessToken() ? {
@@ -43,6 +44,9 @@ const usersSlice = createSlice({
       }
       state.entities.push(action.payload);
     },
+    authRequested: (state) => {
+      state.error = null;
+    },
     authRequestSuccess: (state, action) => {
       state.auth = action.payload;
       state.isLoggedIn = true;
@@ -68,8 +72,9 @@ const usersSlice = createSlice({
       const userIndex = state.entities.findIndex((item) => item._id === action.payload._id);
       newUsers[userIndex] = action.payload;
       state.isLoading = false;
+      // state.entities[state.entities.findIndex((item) => item._id === action.payload._id)] = action.payload;
       // Роман так как в строке ниже, так можно менять state?
-      // state.entities = state.entities.map((item) => item._id === action.payload._id ? (item = action.payload) : item);
+      // state.entities = state.entities.map((item) => item._id === action.payload._id ? (action.payload) : item);
     }
   }
 });
@@ -90,7 +95,13 @@ export const login = ({ payload, redirect }) => async (dispatch) => {
     localStorageService.setTokens(data);
     history.push(redirect);
   } catch (error) {
-    dispatch(authRequestFailed(error.message));
+    const { code, message } = error.response.data.error;
+    if (code === 400) {
+      const errorMessage = generateAuthError(message);
+      dispatch(authRequestFailed(errorMessage));
+    } else {
+      dispatch(authRequestFailed(error.message));
+    }
   }
 };
 
@@ -133,6 +144,7 @@ export const updateUserData = (data) => async (dispatch) => {
   try {
     const { content } = await userService.update(data);
     dispatch(userUpdated(content));
+    history.push(`/users/${content._id}`);
   } catch (error) {
     dispatch(userUpdateFailed(error.message));
   }
@@ -171,5 +183,6 @@ export const getUserById = (userId) => (state) => {
     return state.users.entities.find(user => user._id === userId);
   }
 };
+export const getAuthErrors = () => (state) => state.users.error;
 
 export default usersReducer;

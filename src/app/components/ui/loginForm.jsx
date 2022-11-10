@@ -1,16 +1,17 @@
 import React, { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import { validator } from "../../utils/validator";
 import TextField from "../common/form/textField";
 import CheckBoxField from "../common/form/checkBoxField";
-import { login } from "../../store/users";
+import { getAuthErrors, login } from "../../store/users";
 // import { useAuth } from "../hooks/useAuth";
 
 const loginForm = () => {
   const [data, setData] = useState({ email: "", password: "", stayOn: false });
   const [errors, setErrors] = useState({});
+  const loginError = useSelector(getAuthErrors());
   const history = useHistory();
   // const { login } = useAuth();
   const dispatch = useDispatch();
@@ -90,6 +91,7 @@ const loginForm = () => {
       <CheckBoxField value={data.stayOn} onChange={handleChange} name="stayOn">
         Оставаться в системе
       </CheckBoxField>
+      {loginError && <p className="text-danger">{loginError}</p>}
       <button
         className="btn btn-primary w-100 mx-auto"
         type="submit"

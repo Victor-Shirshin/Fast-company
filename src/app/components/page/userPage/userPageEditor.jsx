@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
-import { useHistory } from "react-router-dom";
 
 import { validator } from "../../../utils/validator";
 
@@ -40,7 +39,6 @@ const UserPageEditor = () => {
     color: quality.color
   }));
   const isValid = Object.keys(errors).length === 0;
-  const history = useHistory();
 
   const transformData = (data) => {
     const result = getQualitiesListById(data).map((qual) => ({
@@ -127,7 +125,6 @@ const UserPageEditor = () => {
     };
 
     dispatch(updateUserData(userEdit));
-    history.push(`/users/${currentUser._id}`);
   };
 
   return (
